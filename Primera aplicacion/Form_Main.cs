@@ -245,6 +245,9 @@ namespace Primera_aplicacion
 
             }
 
+            //Agrego un comentario
+
+
             //Se crea el poligono Circulo
             GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
             //Se agrega el circulo a la capa
