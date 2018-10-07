@@ -51,6 +51,8 @@
             this.txt_radio = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.txt_dist = new System.Windows.Forms.TextBox();
+            this.lbl_dist = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -160,7 +162,7 @@
             // 
             // btn_Conexion
             // 
-            this.btn_Conexion.Location = new System.Drawing.Point(710, 9);
+            this.btn_Conexion.Location = new System.Drawing.Point(580, 9);
             this.btn_Conexion.Name = "btn_Conexion";
             this.btn_Conexion.Size = new System.Drawing.Size(21, 13);
             this.btn_Conexion.TabIndex = 11;
@@ -171,7 +173,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(654, 9);
+            this.label5.Location = new System.Drawing.Point(524, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(50, 13);
             this.label5.TabIndex = 12;
@@ -179,7 +181,7 @@
             // 
             // btn_circle
             // 
-            this.btn_circle.Location = new System.Drawing.Point(631, 155);
+            this.btn_circle.Location = new System.Drawing.Point(631, 176);
             this.btn_circle.Name = "btn_circle";
             this.btn_circle.Size = new System.Drawing.Size(97, 55);
             this.btn_circle.TabIndex = 13;
@@ -191,7 +193,7 @@
             // 
             this.lbl_radio.AutoSize = true;
             this.lbl_radio.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_radio.Location = new System.Drawing.Point(635, 34);
+            this.lbl_radio.Location = new System.Drawing.Point(628, 56);
             this.lbl_radio.Name = "lbl_radio";
             this.lbl_radio.Size = new System.Drawing.Size(38, 13);
             this.lbl_radio.TabIndex = 15;
@@ -199,7 +201,7 @@
             // 
             // btn_cricleBorrar
             // 
-            this.btn_cricleBorrar.Location = new System.Drawing.Point(638, 216);
+            this.btn_cricleBorrar.Location = new System.Drawing.Point(638, 237);
             this.btn_cricleBorrar.Name = "btn_cricleBorrar";
             this.btn_cricleBorrar.Size = new System.Drawing.Size(75, 23);
             this.btn_cricleBorrar.TabIndex = 16;
@@ -213,7 +215,7 @@
             this.panel1.Controls.Add(this.cbx_corto);
             this.panel1.Controls.Add(this.cbx_medio);
             this.panel1.Controls.Add(this.cbx_largo);
-            this.panel1.Location = new System.Drawing.Point(632, 77);
+            this.panel1.Location = new System.Drawing.Point(632, 98);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(96, 70);
             this.panel1.TabIndex = 17;
@@ -254,7 +256,7 @@
             // txt_radio
             // 
             this.txt_radio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_radio.Location = new System.Drawing.Point(632, 51);
+            this.txt_radio.Location = new System.Drawing.Point(632, 72);
             this.txt_radio.Name = "txt_radio";
             this.txt_radio.Size = new System.Drawing.Size(96, 20);
             this.txt_radio.TabIndex = 19;
@@ -279,6 +281,24 @@
             this.dataGridView1.TabIndex = 9;
             this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Seleccionar_registro);
             // 
+            // txt_dist
+            // 
+            this.txt_dist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_dist.Location = new System.Drawing.Point(631, 33);
+            this.txt_dist.Name = "txt_dist";
+            this.txt_dist.Size = new System.Drawing.Size(96, 20);
+            this.txt_dist.TabIndex = 22;
+            // 
+            // lbl_dist
+            // 
+            this.lbl_dist.AutoSize = true;
+            this.lbl_dist.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_dist.Location = new System.Drawing.Point(628, 17);
+            this.lbl_dist.Name = "lbl_dist";
+            this.lbl_dist.Size = new System.Drawing.Size(77, 13);
+            this.lbl_dist.TabIndex = 21;
+            this.lbl_dist.Text = "Dist en metros:";
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -288,6 +308,8 @@
             this.BackgroundImage = global::Primera_aplicacion.Properties.Resources.fondo_DRS_v2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(743, 405);
+            this.Controls.Add(this.txt_dist);
+            this.Controls.Add(this.lbl_dist);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txt_radio);
@@ -343,6 +365,8 @@
         private System.Windows.Forms.TextBox txt_radio;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox txt_dist;
+        private System.Windows.Forms.Label lbl_dist;
     }
 }
 

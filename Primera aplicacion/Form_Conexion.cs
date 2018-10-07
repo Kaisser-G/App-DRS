@@ -18,12 +18,17 @@ namespace Primera_aplicacion
         Boolean conectado = false;
         public double datosLat = 0, datosLng = 0;
 
+        Form_Main Form_Main;
+
         // Declara el delegado que presentara lo recibido en el formulario
         delegate void NuevoDato();
 
-        public Form_Conexion()
+        //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
+        //lo reconozca como padre
+        public Form_Conexion(Form_Main nombre)
         {
             InitializeComponent();
+            Form_Main = nombre;
         }
 
         private void Form_Conexion_Load(object sender, EventArgs e)
@@ -76,19 +81,7 @@ namespace Primera_aplicacion
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //Form_Main Form_Main = new Form_Main();
-            //ISerie Iserie = this.Owner as ISerie;
             Recibir();
-            //lbl_rx.Text = "...dato recibido.";
-            //if (Iserie != null)
-            //Iserie.reasignarData(datosLat, datosLng);
-            
-            //dataLat = Convert.ToDouble(txt_Recibir_Lat.Text);
-            //dataLng = Convert.ToDouble(txt_Recibir_Long.Text);
-            //Form_Main.reasignarData(dataLat, dataLng);
-
-            //for (int i = 0; i < 4000; i++) { }
-            //lbl_rx.Text = "";
         }
 
         private void Recibir()
@@ -116,17 +109,7 @@ namespace Primera_aplicacion
                 txt_Recibir_Lat.Text = Dts[0];
                 txt_Recibir_Long.Text = Dts[1];
 
-                ISerie Iserie = this.Owner as ISerie;
-                lbl_rx.Text = "...dato recibido.";
-                if (Iserie != null)
-                Iserie.reasignarData(datosLat, datosLng);
-
-                //dataLat = Convert.ToDouble(txt_Recibir_Lat.Text);
-                //dataLng = Convert.ToDouble(txt_Recibir_Long.Text);
-                //Form_Main.reasignarData(dataLat, dataLng);
-
-                for (int i = 0; i < 4000; i++) { }
-                lbl_rx.Text = "";
+                Form_Main.reasignarData(datosLat, datosLng);
             }
         }
 

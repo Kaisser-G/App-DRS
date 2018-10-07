@@ -1,5 +1,10 @@
-﻿/* Tengo que ver como voy a hacer la comunicacion con el XBee para definir las variables de las que voy a necesitar sus valores
- * para hacer la comunicacion y asi declararlas como publicas al principio de la clase
+﻿/* 
+ * 1/10
+ * Ya esta todo lo basico funcionando, ahora me faltan detalles y cosas extra.
+ * Tengo que hacer el rango de la bateria. Primero calcular a cuanta distancia equivale una unidad del circulo y despues
+ * implementarlo bien en el codigo.
+ * Cosas a considerar son el protocolo y un trazador de ruta (algo que quede fachero), ademas de obtener una posicion
+ * inicial flexible, pidiendole los datos al dron.
 */
 using System;
 using System.Collections.Generic;
@@ -12,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using GMap.NET;
+
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -19,7 +25,7 @@ using GMap.NET.WindowsForms.Markers;
 
 namespace Primera_aplicacion
 {
-    public partial class Form_Main : Form, ISerie
+    public partial class Form_Main : Form
     {
         GMarkerGoogle marker;
         GMapOverlay markerOverlay;
@@ -38,7 +44,7 @@ namespace Primera_aplicacion
         //GMapOverlay overlaySerial;
 
         //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
-        Form_Conexion Form_Conexion = new Form_Conexion();
+        Form_Conexion Form_Conexion;
         
         //contador para la descripcion de los datos recibidos por puerto serie
         //int contData = 1;
@@ -94,9 +100,12 @@ namespace Primera_aplicacion
             fila_seleccionada = e.RowIndex; //devuelve la fila seleccionada
 
             //inserta los datos seleccionados en el dt y los pone en los textbox
-            txtDescripcion.Text = dataGridView1.Rows[fila_seleccionada].Cells[0].Value.ToString();
-            txtLatitud.Text = dataGridView1.Rows[fila_seleccionada].Cells[1].Value.ToString();
-            txtLongitud.Text = dataGridView1.Rows[fila_seleccionada].Cells[2].Value.ToString();
+            if (fila_seleccionada >= 0)
+            {
+                txtDescripcion.Text = dataGridView1.Rows[fila_seleccionada].Cells[0].Value.ToString();
+                txtLatitud.Text = dataGridView1.Rows[fila_seleccionada].Cells[1].Value.ToString();
+                txtLongitud.Text = dataGridView1.Rows[fila_seleccionada].Cells[2].Value.ToString();
+            }
 
             //centrar el mapa          
             gMapControl1.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
@@ -136,8 +145,14 @@ namespace Primera_aplicacion
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            string descripcion;
+            if (txtDescripcion.Text != "")
+                descripcion = txtDescripcion.Text;
+            else
+            { descripcion = "Ubicacion " + cont; cont++; }
+
             //Agregar los datos al dt
-            dt.Rows.Add(txtDescripcion.Text, txtLatitud.Text, txtLongitud.Text);
+            dt.Rows.Add(descripcion, txtLatitud.Text, txtLongitud.Text);
 
             //Inicializar el marcador
             marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text)), GMarkerGoogleType.red);
@@ -147,13 +162,13 @@ namespace Primera_aplicacion
             marker.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
 
             //agregar el tooltip
-            marker.ToolTipText = "Ubicacion: " + txtDescripcion.Text + "\n Latitud: " + txtLatitud.Text + "\n Longitud: " + txtLongitud.Text;
+            marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + txtLatitud.Text + "\n Longitud: " + txtLongitud.Text;
 
             //centrar el mapa
             gMapControl1.Position = marker.Position;
 
             //Agregarle un Tag al marker
-            marker.Tag = txtDescripcion.Text;
+            marker.Tag = descripcion;
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -188,12 +203,11 @@ namespace Primera_aplicacion
             txtDescripcion.Text = item.Tag.ToString();
             txtLatitud.Text = dataGridView1.Rows[fila].Cells[1].Value.ToString();
             txtLongitud.Text = dataGridView1.Rows[fila].Cells[2].Value.ToString();
-
-            
         }
 
         private void btn_Conexion_Click(object sender, EventArgs e)
         {
+            Form_Conexion = new Form_Conexion(this);
             //Abrir el Form de conexion
             Form_Conexion.Show(this);
         }
@@ -202,23 +216,34 @@ namespace Primera_aplicacion
         {
             double radio = 1;
             double divisor = 1000;
-            if (txt_radio.Text != "")
+            int distancia; //es la distancia en metros que se quiere que sea el radio del circulo
+
+            if (txt_dist.Text != "")
             {
-                try
-                {
-                    //Obtener el valor en el textbox
-                    radio = Convert.ToDouble(txt_radio.Text);
-                }
-                catch(Exception ex)
-                { MessageBox.Show(ex.Message, "Error"); }
+                distancia = Convert.ToInt16(txt_dist.Text);
+                /*
+                 * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
+                 * de radio del circulo es de aproximadamente 89m
+                 */
+                radio = distancia / 89.0;
             }
             else
             {
-                //Si no se ingreso nada en el textbox, se utiliza la seleccion de los checkbox
-                divisor = 100;
-                if (cbx_corto.Checked == true) { divisor = 1000; }
-                if (cbx_medio.Checked == true) { divisor = 500; }
-                if (cbx_largo.Checked == true) { divisor = 100; }
+                //Si no hay nada en el txt de distancia entonces revisa el resto
+                if (txt_radio.Text != "")
+                {
+                        //Obtener el valor en el textbox
+                        radio = Convert.ToDouble(txt_radio.Text);
+                }
+                else
+                {
+                    //Si no se ingreso nada en el textbox, se utiliza la seleccion de los checkbox
+                    divisor = 100;
+                    if (cbx_corto.Checked == true) { divisor = 1000; }
+                    else if (cbx_medio.Checked == true) { divisor = 500; }
+                    else if (cbx_largo.Checked == true) { divisor = 100; }
+                    else radio = 1;
+                }
             }
 
             //Cant de puntos para dibujar el circulo
@@ -255,12 +280,12 @@ namespace Primera_aplicacion
             //Se agrega la capa al mapa
             gMapControl1.Overlays.Add(layerCirculo);
             //Se actualiza el mapa
-            gMapControl1.Refresh();
-            //gMapControl1.Zoom++;
-            //gMapControl1.Zoom--;
+            //gMapControl1.Refresh();
+            gMapControl1.Zoom++;
+            gMapControl1.Zoom--;
 
             //Se limpia la lista para el proximo circulo
-            listaCirculo.Clear();
+            listaCirculo.Clear();            
         }
 
         private void btn_cricleBorrar_Click(object sender, EventArgs e)
@@ -313,7 +338,7 @@ namespace Primera_aplicacion
 
         //}
 
-        #region Interfaz
+        #region ComunicacionSerie
         public void reasignarData(double dataLat, double dataLng)
         {
             PointLatLng CoordSerie = new PointLatLng(dataLat, dataLng);
@@ -323,14 +348,16 @@ namespace Primera_aplicacion
             marker.Position = CoordSerie;
 
             markerOverlay.Markers.Add(marker);
-
+ 
             gMapControl1.Position = marker.Position;
-
+            
             txtDescripcion.Text = "Ubicacion " + cont;
             txtLatitud.Text = CoordSerie.Lat.ToString();
             txtLongitud.Text = CoordSerie.Lng.ToString();
 
             dt.Rows.Add(txtDescripcion.Text, txtLatitud.Text, txtLongitud.Text);
+
+            cont++;
         }
         #endregion
     }

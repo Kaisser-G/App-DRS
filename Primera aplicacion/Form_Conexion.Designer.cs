@@ -45,7 +45,6 @@
             this.txt_Recibir_Long = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_Recibir_Lat = new System.Windows.Forms.TextBox();
-            this.lbl_rx = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_Conectar
@@ -183,14 +182,6 @@
             this.txt_Recibir_Lat.Size = new System.Drawing.Size(101, 20);
             this.txt_Recibir_Lat.TabIndex = 16;
             // 
-            // lbl_rx
-            // 
-            this.lbl_rx.AutoSize = true;
-            this.lbl_rx.Location = new System.Drawing.Point(90, 220);
-            this.lbl_rx.Name = "lbl_rx";
-            this.lbl_rx.Size = new System.Drawing.Size(0, 13);
-            this.lbl_rx.TabIndex = 17;
-            // 
             // Form_Conexion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -198,7 +189,6 @@
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(234, 279);
-            this.Controls.Add(this.lbl_rx);
             this.Controls.Add(this.txt_Recibir_Lat);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txt_Recibir_Long);
@@ -245,6 +235,5 @@
         private System.Windows.Forms.TextBox txt_Recibir_Long;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_Recibir_Lat;
-        private System.Windows.Forms.Label lbl_rx;
     }
 }
