@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+ * Tengo que crear una funcion que solamente recba los datos del puerto serie y los devuelva
+ * 
+ * 
+ * -Iniciar app
+ * -Enviar aviso de que inicio la app
+ * -Recbir datos de Coordenadas iniciales (y bateria)
+ * -Setear las Coordenadas Iniciales en el Main
+ * -Colocar los marcadores en el main
+ * -Enviar el marcador seleccionado por puerto serie (desde el main)
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +29,7 @@ namespace Primera_aplicacion
     {
         Boolean conectado = false;
         public double datosLat = 0, datosLng = 0;
-
+        string initCom = "in"; //Caracteres enviados para hacer saber que la app esta funcionando 
         Form_Main Form_Main;
 
         // Declara el delegado que presentara lo recibido en el formulario
@@ -109,7 +121,8 @@ namespace Primera_aplicacion
                 txt_Recibir_Lat.Text = Dts[0];
                 txt_Recibir_Long.Text = Dts[1];
 
-                Form_Main.reasignarData(datosLat, datosLng);
+                //envia las coordenadas al Form_Main para que las muestre en el mapa
+                Form_Main.coordenadasSerie(datosLat, datosLng);
             }
         }
 
@@ -118,6 +131,16 @@ namespace Primera_aplicacion
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        //Envia el string de inicio, espera a recibir datos y los devuelve
+        private string iniciarCom()
+        {
+            string data = "0";
+            serialPort1.WriteLine(initCom);
+            while (serialPort1.BytesToRead == 0) { }
+            //data = serialPort1.Read    //Funcion para recibir los datos del puerto serie
+            return data;
         }
 
     }

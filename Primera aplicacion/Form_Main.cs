@@ -5,6 +5,15 @@
  * implementarlo bien en el codigo.
  * Cosas a considerar son el protocolo y un trazador de ruta (algo que quede fachero), ademas de obtener una posicion
  * inicial flexible, pidiendole los datos al dron.
+ * 
+ * 4/10
+ * Se habia creado una interfaz para la comunicacion entre los dos Forms (compartir las coordenadas del puerto serie) pero eso
+ * no era necesario. La solucion final fue declarar al Form_Conexion como hijo y hacer que este "reconozca" al Form_Main como padre.
+ * De esta forma se pueden compartir variables y funciones entre los dos Form.
+ * 
+ * 8/10
+ * Se comenzo a definir la comunicacion entre la pc y el arduino y se empezo a crear los metodos de comunicacion en el
+ * programa.
 */
 using System;
 using System.Collections.Generic;
@@ -339,7 +348,7 @@ namespace Primera_aplicacion
         //}
 
         #region ComunicacionSerie
-        public void reasignarData(double dataLat, double dataLng)
+        public void coordenadasSerie(double dataLat, double dataLng)
         {
             PointLatLng CoordSerie = new PointLatLng(dataLat, dataLng);
 

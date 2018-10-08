@@ -64,7 +64,6 @@
     <Compile Include="Form_Conexion.Designer.cs">
       <DependentUpon>Form_Conexion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interface1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form_Conexion.resx">
