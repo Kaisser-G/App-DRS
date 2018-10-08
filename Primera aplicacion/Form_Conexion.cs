@@ -2,7 +2,9 @@
  * Tengo que crear una funcion que solamente recba los datos del puerto serie y los devuelva
  * 
  * 
- * -Iniciar app
+ * -Iniciar app (Form_Main)
+ * -Abrir el Form_Conexion
+ * -Abrir el puerto serie
  * -Enviar aviso de que inicio la app
  * -Recbir datos de Coordenadas iniciales (y bateria)
  * -Setear las Coordenadas Iniciales en el Main
@@ -35,11 +37,15 @@ namespace Primera_aplicacion
         // Declara el delegado que presentara lo recibido en el formulario
         delegate void NuevoDato();
 
+        /* Esta variable la utilizo para la funcion void de recibir datos. Todas las demas funciones agarran el valor desde esta variable*/
+        string datosSerie = "";
+
         //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
         //lo reconozca como padre
         public Form_Conexion(Form_Main nombre)
         {
             InitializeComponent();
+
             Form_Main = nombre;
         }
 
@@ -47,11 +53,6 @@ namespace Primera_aplicacion
         {
             //Escondo esta ventana
             this.Hide();
-            //Creo el objeto del Form Principal para poder acceder a sus parametros
-            //Form_Main Form_Main = new Form_Main();
-            /*OBSERVACION:
-             * Si creo el objeto del Form_Main al principio de la clase se genera un error por stack overflow, un loop infinito
-             */
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -83,6 +84,8 @@ namespace Primera_aplicacion
                 if (serialPort1 != null)
                     serialPort1.Close();
             }
+
+
         }
 
         private void btn_Enviar_Click(object sender, EventArgs e)
@@ -91,39 +94,92 @@ namespace Primera_aplicacion
             if (conectado) serialPort1.WriteLine(Convert.ToString(txt_Enviar_Lat.Text) + ";" + Convert.ToString(txt_Enviar_Long.Text));
         }
 
-        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        //region comentada
+        #region SerialPort old
+        //private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        //{
+        //    Recibir();
+        //}
+
+        //private void Recibir()
+        //{
+        //    /*Obtiene un valor que indica si el llamador debe llamar a un método de invocación cuando realiza llamadas 
+        //     * a métodos del control porque el llamador se encuentra 
+        //     * en un subproceso distinto al del control donde se creó.
+        //     * true si Handle del control se creó en un subproceso distinto al subproceso que realiza la llamada 
+        //     * (lo que indica que debe realizar llamadas al control mediante un método de invocación); 
+        //     * en caso contrario, false. 
+        //    */
+        //    if (this.InvokeRequired)
+        //    {
+        //        NuevoDato ND = new NuevoDato(Recibir);
+        //        //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
+        //        this.Invoke(ND);
+        //    }
+        //    else
+        //    {
+        //        string datos = Convert.ToString(serialPort1.ReadExisting());
+        //        //Recibe los datos desde el puerto serie y los separa en latitud y longitud
+        //        string[] Dts = datos.Split(new Char[] { ';' }, 2);
+        //        datosLat = Convert.ToDouble(Dts[0]);
+        //        datosLng = Convert.ToDouble(Dts[1]);
+        //        txt_Recibir_Lat.Text = Dts[0];
+        //        txt_Recibir_Long.Text = Dts[1];
+
+        //        //envia las coordenadas al Form_Main para que las muestre en el mapa
+        //        Form_Main.coordenadasSerie(datosLat, datosLng);
+        //    }
+        //}
+        #endregion  
+
+        //Revisa el puerto serie y devuelve lo que encuentre como un string
+        //private string recibirDatos()
+        //{
+        //    string datos = "";
+
+        //    if (this.InvokeRequired)
+        //    {
+        //        NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
+        //        //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
+        //        this.Invoke(ND);
+        //    }
+        //    else
+        //    {
+        //        datos = Convert.ToString(serialPort1.ReadExisting());                
+        //    }
+        //    return datos;
+        //}
+        /* MISMA FUNCION QUE LA DE ARRIBA PERO VOID */
+        private string recibirDatos()
         {
-            Recibir();
+            string datos = "";
+
+            //if (this.InvokeRequired)
+            //{
+            //    NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
+            //    //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
+            //    this.Invoke(ND);
+            //}
+            //else
+            //{
+                datos = Convert.ToString(serialPort1.ReadExisting());
+            //}
+            return datos;
         }
 
-        private void Recibir()
+        //inicializa la parte de comunicacion de la app
+        private void Setup()
         {
-            /*Obtiene un valor que indica si el llamador debe llamar a un método de invocación cuando realiza llamadas 
-             * a métodos del control porque el llamador se encuentra 
-             * en un subproceso distinto al del control donde se creó.
-             * true si Handle del control se creó en un subproceso distinto al subproceso que realiza la llamada 
-             * (lo que indica que debe realizar llamadas al control mediante un método de invocación); 
-             * en caso contrario, false. 
-            */
-            if (this.InvokeRequired)
-            {
-                NuevoDato ND = new NuevoDato(Recibir);
-                //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
-                this.Invoke(ND);
-            }
-            else
-            {
-                string datos = Convert.ToString(serialPort1.ReadExisting());
-                //Recibe los datos desde el puerto serie y los separa en latitud y longitud
-                string[] Dts = datos.Split(new Char[] { ';' }, 2);
-                datosLat = Convert.ToDouble(Dts[0]);
-                datosLng = Convert.ToDouble(Dts[1]);
-                txt_Recibir_Lat.Text = Dts[0];
-                txt_Recibir_Long.Text = Dts[1];
+ //           -Enviar aviso de que inicio la app
+ //           -Recbir datos de Coordenadas iniciales (y bateria)
+ //           -Setear las Coordenadas Iniciales en el Main
+            string coordenadas;
 
-                //envia las coordenadas al Form_Main para que las muestre en el mapa
-                Form_Main.coordenadasSerie(datosLat, datosLng);
-            }
+            iniciarCom();
+            while (serialPort1.BytesToRead == 0) { }
+            coordenadas = recibirDatos();  //lee el puerto serie
+            string[] Dts = coordenadas.Split(new Char[] { ';' }, 2); //separa la lat de la longitud
+            Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
         }
 
         //Mantiene abierto el form
@@ -136,10 +192,11 @@ namespace Primera_aplicacion
         //Envia el string de inicio, espera a recibir datos y los devuelve
         private string iniciarCom()
         {
-            string data = "0";
+            string data = "";
             serialPort1.WriteLine(initCom);
-            while (serialPort1.BytesToRead == 0) { }
-            //data = serialPort1.Read    //Funcion para recibir los datos del puerto serie
+            while (serialPort1.BytesToRead == 0) { } //Espera a que haya datos que leer
+            data = recibirDatos();    //Funcion para recibir los datos del puerto serie
+            serialPort1.DiscardInBuffer(); //Limpia el Buffer de entrada
             return data;
         }
 

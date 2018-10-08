@@ -368,6 +368,35 @@ namespace Primera_aplicacion
 
             cont++;
         }
+
+        public void coordenadasIniciales(double lat, double lng)
+        {
+            LatInicial = lat;
+            LngInicial = lng;
+
+            //centrar el mapa
+            gMapControl1.Position = new PointLatLng(LatInicial, LngInicial);
+
+            //Elimina el marcador y modifica los valores de las celdas
+            markerOverlay.Markers.RemoveAt(0);
+            dataGridView1.Rows[0].Cells[1].Value = LatInicial;
+            dataGridView1.Rows[0].Cells[2].Value = LngInicial;
+            dataGridView1.DataSource = dt;
+
+            //Marcador
+            markerOverlay = new GMapOverlay("Marcador"); //genera una capa por encima del mapa creado
+            marker = new GMarkerGoogle(new PointLatLng(LatInicial, LngInicial), GMarkerGoogleType.blue); //crea el marcador
+            markerOverlay.Markers.Add(marker);//Añadir al marcador
+            marker.Tag = "Ubicacion Inicial";
+
+            //Añadir un Tooltip (texto) al marcador
+            marker.ToolTipMode = MarkerTooltipMode.OnMouseOver; //el tooltip aparece cuando se le pone el mouse encima
+            marker.ToolTipText = "Ubicacion: Ubicacion Inicial \n Latitud: " + LatInicial + "\n Longitud: " + LngInicial;
+
+            //añadir el overlay al mapa principal
+            gMapControl1.Overlays.Add(markerOverlay);
+   
+        }
         #endregion
     }
 }
