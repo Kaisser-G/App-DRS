@@ -398,5 +398,13 @@ namespace Primera_aplicacion
    
         }
         #endregion
+
+        private void btnUbicacion_Click(object sender, EventArgs e)
+        {
+            //PointLatLng coord = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
+            string dato = txtLatitud.Text + ";" + txtLongitud.Text;
+
+            Form_Conexion.enviarCoordenadas(dato);
+        }
     }
 }

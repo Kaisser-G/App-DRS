@@ -53,6 +53,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.txt_dist = new System.Windows.Forms.TextBox();
             this.lbl_dist = new System.Windows.Forms.Label();
+            this.btnUbicacion = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -264,6 +265,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Location = new System.Drawing.Point(445, 197);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 13);
@@ -299,6 +301,16 @@
             this.lbl_dist.TabIndex = 21;
             this.lbl_dist.Text = "Dist en metros:";
             // 
+            // btnUbicacion
+            // 
+            this.btnUbicacion.Location = new System.Drawing.Point(338, 357);
+            this.btnUbicacion.Name = "btnUbicacion";
+            this.btnUbicacion.Size = new System.Drawing.Size(100, 36);
+            this.btnUbicacion.TabIndex = 23;
+            this.btnUbicacion.Text = "Enviar Ubicacion";
+            this.btnUbicacion.UseVisualStyleBackColor = true;
+            this.btnUbicacion.Click += new System.EventHandler(this.btnUbicacion_Click);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -308,6 +320,7 @@
             this.BackgroundImage = global::Primera_aplicacion.Properties.Resources.fondo_DRS_v2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(743, 405);
+            this.Controls.Add(this.btnUbicacion);
             this.Controls.Add(this.txt_dist);
             this.Controls.Add(this.lbl_dist);
             this.Controls.Add(this.dataGridView1);
@@ -367,6 +380,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox txt_dist;
         private System.Windows.Forms.Label lbl_dist;
+        private System.Windows.Forms.Button btnUbicacion;
     }
 }
 

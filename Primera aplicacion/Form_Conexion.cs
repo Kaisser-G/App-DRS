@@ -1,15 +1,15 @@
 ﻿/*
- * Tengo que crear una funcion que solamente recba los datos del puerto serie y los devuelva
+ * Tengo que crear una funcion para enviar los datos por el puerto serie
  * 
  * 
- * -Iniciar app (Form_Main)
- * -Abrir el Form_Conexion
- * -Abrir el puerto serie
- * -Enviar aviso de que inicio la app
- * -Recbir datos de Coordenadas iniciales (y bateria)
- * -Setear las Coordenadas Iniciales en el Main
- * -Colocar los marcadores en el main
- * -Enviar el marcador seleccionado por puerto serie (desde el main)
+ * -Iniciar app (Form_Main)                                                 listo
+ * -Abrir el Form_Conexion                                                  listo
+ * -Abrir el puerto serie                                                   listo
+ * -Enviar aviso de que inicio la app                                       listo
+ * -Recbir datos de Coordenadas iniciales (y bateria)                       listo   
+ * -Setear las Coordenadas Iniciales en el Main                             listo
+ * -Colocar los marcadores en el main                                       listo
+ * -Enviar el marcador seleccionado por puerto serie (desde el main)        listo
  */
 
 using System;
@@ -29,16 +29,19 @@ namespace Primera_aplicacion
 {
     public partial class Form_Conexion : Form
     {
-        Boolean conectado = false;
+        //PROVISORIO (public)
+        public Boolean conectado = false;
+
         public double datosLat = 0, datosLng = 0;
         string initCom = "in"; //Caracteres enviados para hacer saber que la app esta funcionando 
         Form_Main Form_Main;
 
-        // Declara el delegado que presentara lo recibido en el formulario
-        delegate void NuevoDato();
+        // Declara el delegado que presentara lo recibido en el formulario. Debido a que la funcion en la que se emplea es del tipo string, el 
+        //delegado es del mismo tipo
+        delegate string NuevoDato();
 
-        /* Esta variable la utilizo para la funcion void de recibir datos. Todas las demas funciones agarran el valor desde esta variable*/
-        string datosSerie = "";
+        /* Esta variable la utilizo para la funcion void de recibir datos. Todas las demas funciones agarran el valor desde esta variable*/  //((INUTIL))
+        //string datosSerie = "";
 
         //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
         //lo reconozca como padre
@@ -90,8 +93,10 @@ namespace Primera_aplicacion
 
         private void btn_Enviar_Click(object sender, EventArgs e)
         {
-            //Si esta conectado, envia los datos de las textbox
-            if (conectado) serialPort1.WriteLine(Convert.ToString(txt_Enviar_Lat.Text) + ";" + Convert.ToString(txt_Enviar_Long.Text));
+            //Crea el dato a enviar
+            string dato = txt_Enviar_Lat.Text + ";" + txt_Enviar_Long.Text;
+
+            enviarCoordenadas(dato);
         }
 
         //region comentada
@@ -133,46 +138,48 @@ namespace Primera_aplicacion
         #endregion  
 
         //Revisa el puerto serie y devuelve lo que encuentre como un string
-        //private string recibirDatos()
-        //{
-        //    string datos = "";
-
-        //    if (this.InvokeRequired)
-        //    {
-        //        NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
-        //        //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
-        //        this.Invoke(ND);
-        //    }
-        //    else
-        //    {
-        //        datos = Convert.ToString(serialPort1.ReadExisting());                
-        //    }
-        //    return datos;
-        //}
-        /* MISMA FUNCION QUE LA DE ARRIBA PERO VOID */
         private string recibirDatos()
         {
             string datos = "";
 
-            //if (this.InvokeRequired)
-            //{
-            //    NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
-            //    //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
-            //    this.Invoke(ND);
-            //}
-            //else
-            //{
+            if (this.InvokeRequired)
+            {
+                NuevoDato ND = new NuevoDato(recibirDatos);
+                //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
+                this.Invoke(ND);
+            }
+            else
+            {
                 datos = Convert.ToString(serialPort1.ReadExisting());
-            //}
+            }
             return datos;
         }
+        /* MISMA FUNCION QUE LA DE ARRIBA PERO VOID */ // ((por ahora inutil))
+        #region Copia
+        //private string recibirDatos()
+        //{
+        //    string datos = "";
+
+        //    //if (this.InvokeRequired)
+        //    //{
+        //    //    NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
+        //    //    //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
+        //    //    this.Invoke(ND);
+        //    //}
+        //    //else
+        //    //{
+        //        datos = Convert.ToString(serialPort1.ReadExisting());
+        //    //}
+        //    return datos;
+        //}
+        #endregion
 
         //inicializa la parte de comunicacion de la app
         private void Setup()
         {
- //           -Enviar aviso de que inicio la app
- //           -Recbir datos de Coordenadas iniciales (y bateria)
- //           -Setear las Coordenadas Iniciales en el Main
+ //           -Enviar aviso de que inicio la app                        listo
+ //           -Recbir datos de Coordenadas iniciales (y bateria)        listo
+ //           -Setear las Coordenadas Iniciales en el Main              listo
             string coordenadas;
 
             iniciarCom();
@@ -200,5 +207,11 @@ namespace Primera_aplicacion
             return data;
         }
 
+        //Funcion provisoria que solamente envia coordenadas por el puerto serie
+        public void enviarCoordenadas(string dato)
+        {
+            //Si esta conectado, envia los datos de las textbox
+            if (conectado) serialPort1.WriteLine(dato);
+        }
     }
 }
