@@ -54,8 +54,12 @@
             this.txt_dist = new System.Windows.Forms.TextBox();
             this.lbl_dist = new System.Windows.Forms.Label();
             this.btnUbicacion = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnCerrar = new System.Windows.Forms.Button();
+            this.btnMin = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMapControl1
@@ -66,7 +70,7 @@
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMapControl1.LevelsKeepInMemmory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(12, 12);
+            this.gMapControl1.Location = new System.Drawing.Point(8, 57);
             this.gMapControl1.MarkersEnabled = true;
             this.gMapControl1.MaxZoom = 2;
             this.gMapControl1.MinZoom = 2;
@@ -88,7 +92,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(444, 165);
+            this.btnAgregar.Location = new System.Drawing.Point(440, 210);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 1;
@@ -99,7 +103,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(526, 165);
+            this.btnEliminar.Location = new System.Drawing.Point(522, 210);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 23);
             this.btnEliminar.TabIndex = 2;
@@ -110,7 +114,7 @@
             // txtDescripcion
             // 
             this.txtDescripcion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtDescripcion.Location = new System.Drawing.Point(444, 25);
+            this.txtDescripcion.Location = new System.Drawing.Point(441, 68);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(157, 20);
             this.txtDescripcion.TabIndex = 3;
@@ -118,7 +122,7 @@
             // txtLatitud
             // 
             this.txtLatitud.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLatitud.Location = new System.Drawing.Point(444, 84);
+            this.txtLatitud.Location = new System.Drawing.Point(440, 129);
             this.txtLatitud.Name = "txtLatitud";
             this.txtLatitud.Size = new System.Drawing.Size(157, 20);
             this.txtLatitud.TabIndex = 4;
@@ -126,7 +130,7 @@
             // txtLongitud
             // 
             this.txtLongitud.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLongitud.Location = new System.Drawing.Point(444, 127);
+            this.txtLongitud.Location = new System.Drawing.Point(440, 172);
             this.txtLongitud.Name = "txtLongitud";
             this.txtLongitud.Size = new System.Drawing.Size(157, 20);
             this.txtLongitud.TabIndex = 5;
@@ -135,7 +139,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(444, 9);
+            this.label1.Location = new System.Drawing.Point(441, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 6;
@@ -145,7 +149,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(444, 68);
+            this.label2.Location = new System.Drawing.Point(441, 111);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 7;
@@ -155,7 +159,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(445, 111);
+            this.label3.Location = new System.Drawing.Point(441, 156);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 13);
             this.label3.TabIndex = 8;
@@ -163,28 +167,35 @@
             // 
             // btn_Conexion
             // 
-            this.btn_Conexion.Location = new System.Drawing.Point(580, 9);
+            this.btn_Conexion.BackColor = System.Drawing.Color.Snow;
+            this.btn_Conexion.FlatAppearance.BorderSize = 0;
+            this.btn_Conexion.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Snow;
+            this.btn_Conexion.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Snow;
+            this.btn_Conexion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Conexion.Location = new System.Drawing.Point(5, 5);
             this.btn_Conexion.Name = "btn_Conexion";
-            this.btn_Conexion.Size = new System.Drawing.Size(21, 13);
+            this.btn_Conexion.Size = new System.Drawing.Size(30, 30);
             this.btn_Conexion.TabIndex = 11;
-            this.btn_Conexion.UseVisualStyleBackColor = true;
+            this.btn_Conexion.UseVisualStyleBackColor = false;
             this.btn_Conexion.Click += new System.EventHandler(this.btn_Conexion_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(524, 9);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(41, 10);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(50, 13);
+            this.label5.Size = new System.Drawing.Size(72, 21);
             this.label5.TabIndex = 12;
             this.label5.Text = "Conectar";
             // 
             // btn_circle
             // 
-            this.btn_circle.Location = new System.Drawing.Point(631, 176);
+            this.btn_circle.Location = new System.Drawing.Point(622, 287);
             this.btn_circle.Name = "btn_circle";
-            this.btn_circle.Size = new System.Drawing.Size(97, 55);
+            this.btn_circle.Size = new System.Drawing.Size(97, 34);
             this.btn_circle.TabIndex = 13;
             this.btn_circle.Text = "Crear Circulo";
             this.btn_circle.UseVisualStyleBackColor = true;
@@ -194,7 +205,7 @@
             // 
             this.lbl_radio.AutoSize = true;
             this.lbl_radio.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_radio.Location = new System.Drawing.Point(628, 56);
+            this.lbl_radio.Location = new System.Drawing.Point(620, 165);
             this.lbl_radio.Name = "lbl_radio";
             this.lbl_radio.Size = new System.Drawing.Size(38, 13);
             this.lbl_radio.TabIndex = 15;
@@ -202,7 +213,7 @@
             // 
             // btn_cricleBorrar
             // 
-            this.btn_cricleBorrar.Location = new System.Drawing.Point(638, 237);
+            this.btn_cricleBorrar.Location = new System.Drawing.Point(629, 327);
             this.btn_cricleBorrar.Name = "btn_cricleBorrar";
             this.btn_cricleBorrar.Size = new System.Drawing.Size(75, 23);
             this.btn_cricleBorrar.TabIndex = 16;
@@ -216,7 +227,7 @@
             this.panel1.Controls.Add(this.cbx_corto);
             this.panel1.Controls.Add(this.cbx_medio);
             this.panel1.Controls.Add(this.cbx_largo);
-            this.panel1.Location = new System.Drawing.Point(632, 98);
+            this.panel1.Location = new System.Drawing.Point(623, 209);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(96, 70);
             this.panel1.TabIndex = 17;
@@ -257,7 +268,7 @@
             // txt_radio
             // 
             this.txt_radio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_radio.Location = new System.Drawing.Point(632, 72);
+            this.txt_radio.Location = new System.Drawing.Point(623, 183);
             this.txt_radio.Name = "txt_radio";
             this.txt_radio.Size = new System.Drawing.Size(96, 20);
             this.txt_radio.TabIndex = 19;
@@ -266,7 +277,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(445, 197);
+            this.label4.Location = new System.Drawing.Point(441, 242);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(103, 13);
             this.label4.TabIndex = 20;
@@ -277,7 +288,7 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(448, 213);
+            this.dataGridView1.Location = new System.Drawing.Point(444, 258);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(153, 180);
             this.dataGridView1.TabIndex = 9;
@@ -286,7 +297,7 @@
             // txt_dist
             // 
             this.txt_dist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_dist.Location = new System.Drawing.Point(631, 33);
+            this.txt_dist.Location = new System.Drawing.Point(623, 142);
             this.txt_dist.Name = "txt_dist";
             this.txt_dist.Size = new System.Drawing.Size(96, 20);
             this.txt_dist.TabIndex = 22;
@@ -295,7 +306,7 @@
             // 
             this.lbl_dist.AutoSize = true;
             this.lbl_dist.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_dist.Location = new System.Drawing.Point(628, 17);
+            this.lbl_dist.Location = new System.Drawing.Point(620, 126);
             this.lbl_dist.Name = "lbl_dist";
             this.lbl_dist.Size = new System.Drawing.Size(77, 13);
             this.lbl_dist.TabIndex = 21;
@@ -303,7 +314,10 @@
             // 
             // btnUbicacion
             // 
-            this.btnUbicacion.Location = new System.Drawing.Point(338, 357);
+            this.btnUbicacion.FlatAppearance.BorderSize = 0;
+            this.btnUbicacion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUbicacion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUbicacion.Location = new System.Drawing.Point(334, 402);
             this.btnUbicacion.Name = "btnUbicacion";
             this.btnUbicacion.Size = new System.Drawing.Size(100, 36);
             this.btnUbicacion.TabIndex = 23;
@@ -311,15 +325,62 @@
             this.btnUbicacion.UseVisualStyleBackColor = true;
             this.btnUbicacion.Click += new System.EventHandler(this.btnUbicacion_Click);
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.RoyalBlue;
+            this.panel2.Controls.Add(this.btnMin);
+            this.panel2.Controls.Add(this.btnCerrar);
+            this.panel2.Controls.Add(this.btn_Conexion);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(743, 40);
+            this.panel2.TabIndex = 24;
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.BackColor = System.Drawing.Color.DarkRed;
+            this.btnCerrar.FlatAppearance.BorderSize = 0;
+            this.btnCerrar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Firebrick;
+            this.btnCerrar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Snow;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(710, 5);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(30, 30);
+            this.btnCerrar.TabIndex = 13;
+            this.btnCerrar.Text = "X";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // btnMin
+            // 
+            this.btnMin.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnMin.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnMin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Snow;
+            this.btnMin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Snow;
+            this.btnMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMin.ForeColor = System.Drawing.Color.White;
+            this.btnMin.Location = new System.Drawing.Point(674, 5);
+            this.btnMin.Name = "btnMin";
+            this.btnMin.Size = new System.Drawing.Size(30, 30);
+            this.btnMin.TabIndex = 14;
+            this.btnMin.Text = "_";
+            this.btnMin.UseVisualStyleBackColor = false;
+            this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.BackgroundImage = global::Primera_aplicacion.Properties.Resources.fondo_DRS_v2;
+            this.BackColor = System.Drawing.Color.DarkCyan;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(743, 405);
+            this.ClientSize = new System.Drawing.Size(743, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnUbicacion);
             this.Controls.Add(this.txt_dist);
             this.Controls.Add(this.lbl_dist);
@@ -330,8 +391,6 @@
             this.Controls.Add(this.btn_cricleBorrar);
             this.Controls.Add(this.lbl_radio);
             this.Controls.Add(this.btn_circle);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.btn_Conexion);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -341,6 +400,7 @@
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.gMapControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form_Main";
@@ -350,6 +410,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,6 +443,9 @@
         private System.Windows.Forms.TextBox txt_dist;
         private System.Windows.Forms.Label lbl_dist;
         private System.Windows.Forms.Button btnUbicacion;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnCerrar;
+        private System.Windows.Forms.Button btnMin;
     }
 }
 

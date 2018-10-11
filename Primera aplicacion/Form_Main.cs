@@ -216,9 +216,9 @@ namespace Primera_aplicacion
 
         private void btn_Conexion_Click(object sender, EventArgs e)
         {
-            Form_Conexion = new Form_Conexion(this);
-            //Abrir el Form de conexion
-            Form_Conexion.Show(this);
+                Form_Conexion = new Form_Conexion(this);
+                //Abrir el Form de conexion
+                Form_Conexion.Show(this);
         }
 
         private void btn_circle_Click(object sender, EventArgs e)
@@ -405,6 +405,17 @@ namespace Primera_aplicacion
             string dato = txtLatitud.Text + ";" + txtLongitud.Text;
 
             Form_Conexion.enviarCoordenadas(dato);
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            Form_Conexion.Close();
+            this.Close();
+        }
+
+        private void btnMin_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

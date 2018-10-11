@@ -55,6 +55,7 @@ namespace Primera_aplicacion
         private void Form_Conexion_Load(object sender, EventArgs e)
         {
             //Escondo esta ventana
+            this.Location = Form_Main.Location;
             this.Hide();
         }
 
@@ -212,6 +213,11 @@ namespace Primera_aplicacion
         {
             //Si esta conectado, envia los datos de las textbox
             if (conectado) serialPort1.WriteLine(dato);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
     }
 }
