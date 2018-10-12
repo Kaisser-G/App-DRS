@@ -72,8 +72,11 @@ namespace Primera_aplicacion
                     serialPort1.DataBits = 8;
                     serialPort1.StopBits = StopBits.One;
                     serialPort1.Open();  //Abrir la conexión
-                    lbl_Conectar.Text = "Status: Conectado";
+
                     conectado = true;
+
+                    lbl_Conectar.Text = "Conectado";
+                    lbl_Conectar.BackColor = Color.Green;
                 }
                 catch (Exception ex)   // Código de error
                 {
@@ -83,10 +86,13 @@ namespace Primera_aplicacion
             }
             else   //Cerrar conexión.
             {
-                lbl_Conectar.Text = "Status: Desconectado";
-                conectado = false;
                 if (serialPort1 != null)
                     serialPort1.Close();
+
+                conectado = false;
+
+                lbl_Conectar.Text = "Desconectado";
+                lbl_Conectar.BackColor = Color.Firebrick;
             }
 
 

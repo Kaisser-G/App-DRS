@@ -24,6 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 
 using GMap.NET;
 
@@ -154,30 +155,35 @@ namespace Primera_aplicacion
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            string descripcion;
-            if (txtDescripcion.Text != "")
-                descripcion = txtDescripcion.Text;
-            else
-            { descripcion = "Ubicacion " + cont; cont++; }
+            try
+            {
+                string descripcion;
+                if (txtDescripcion.Text != "")
+                    descripcion = txtDescripcion.Text;
+                else
+                { descripcion = "Ubicacion " + cont; cont++; }
 
-            //Agregar los datos al dt
-            dt.Rows.Add(descripcion, txtLatitud.Text, txtLongitud.Text);
+                //Agregar los datos al dt
+                dt.Rows.Add(descripcion, txtLatitud.Text, txtLongitud.Text);
 
-            //Inicializar el marcador
-            marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text)), GMarkerGoogleType.red);
-            markerOverlay.Markers.Add(marker);//Añadir al marcador
+                //Inicializar el marcador
+                marker = new GMarkerGoogle(new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text)), GMarkerGoogleType.red);
+                markerOverlay.Markers.Add(marker);//Añadir al marcador
 
-            //Colocar el marcador
-            marker.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
+                //Colocar el marcador
+                marker.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
 
-            //agregar el tooltip
-            marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + txtLatitud.Text + "\n Longitud: " + txtLongitud.Text;
+                //agregar el tooltip
+                marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + txtLatitud.Text + "\n Longitud: " + txtLongitud.Text;
 
-            //centrar el mapa
-            gMapControl1.Position = marker.Position;
+                //centrar el mapa
+                gMapControl1.Position = marker.Position;
 
-            //Agregarle un Tag al marker
-            marker.Tag = descripcion;
+                //Agregarle un Tag al marker
+                marker.Tag = descripcion;
+            }
+            catch(Exception ex)
+            { MessageBox.Show(ex.Message, "Error"); }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -409,13 +415,18 @@ namespace Primera_aplicacion
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            Form_Conexion.Close();
-            this.Close();
+            try
+            {
+                Form_Conexion.Close();
+                this.Close();
+            }
+            catch
+            { this.Close(); }
         }
 
         private void btnMin_Click(object sender, EventArgs e)
         {
-
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
