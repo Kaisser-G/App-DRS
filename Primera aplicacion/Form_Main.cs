@@ -32,6 +32,10 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+
 
 namespace Primera_aplicacion
 {
@@ -59,6 +63,15 @@ namespace Primera_aplicacion
         //contador para la descripcion de los datos recibidos por puerto serie
         //int contData = 1;
 
+        //Inicializar la interfaz para la base de datos
+        IFirebaseConfig config = new FirebaseConfig
+        {
+            AuthSecret = "xzlRQPYVHj3VuHwCLW64vhByhUSStz7CjWxschaU",
+            BasePath = "https://drs-drone.firebaseio.com/"
+        };
+
+        IFirebaseClient cliente;
+
         public Form_Main()
         {
             InitializeComponent();
@@ -66,6 +79,15 @@ namespace Primera_aplicacion
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Instanciar al cliente
+            cliente = new FireSharp.FirebaseClient(config);
+
+            //Prueba de conexion del cliente   //Funciono
+            //if(cliente != null)
+            //{
+            //    MessageBox.Show("Conexion Establecida");
+            //}
+
             //inicializacion del mapa
             gMapControl1.DragButton = MouseButtons.Left;
             gMapControl1.CanDragMap = true;
@@ -428,5 +450,8 @@ namespace Primera_aplicacion
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+
+
     }
 }
