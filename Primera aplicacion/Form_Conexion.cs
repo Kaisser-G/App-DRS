@@ -56,6 +56,8 @@ namespace Primera_aplicacion
             //Escondo esta ventana
             this.Location = Form_Main.Location;
             this.Hide();
+
+            this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -65,7 +67,7 @@ namespace Primera_aplicacion
                 try
                 {
                     //Definir los parámetros de la comunicación serial 
-                    serialPort1.PortName = comboBox1.Text;
+                    serialPort1.PortName = boxCom.Text;
                     serialPort1.BaudRate = 9600;
                     serialPort1.Parity = Parity.None;
                     serialPort1.DataBits = 8;
@@ -74,8 +76,8 @@ namespace Primera_aplicacion
 
                     conectado = true;
 
-                    lbl_Conectar.Text = "Conectado";
-                    lbl_Conectar.BackColor = Color.Green;
+                    lblConectar.Text = "Conectado";
+                    lblConectar.BackColor = Color.Green;
                 }
                 catch (Exception ex)   // Código de error
                 {
@@ -90,17 +92,17 @@ namespace Primera_aplicacion
 
                 conectado = false;
 
-                lbl_Conectar.Text = "Desconectado";
-                lbl_Conectar.BackColor = Color.Firebrick;
+                lblConectar.Text = "Desconectado";
+                lblConectar.BackColor = Color.Firebrick;
             }
 
 
         }
 
-        private void btn_Enviar_Click(object sender, EventArgs e)
+        private void btnEnviar_Click(object sender, EventArgs e)
         {
             //Crea el dato a enviar
-            string dato = txt_Enviar_Lat.Text + ";" + txt_Enviar_Long.Text;
+            string dato = txtEnviarLat.Text + ";" + txtEnviarLong.Text;
 
             enviarCoordenadas(dato);
         }
@@ -238,12 +240,18 @@ namespace Primera_aplicacion
         // 
         // función privada usada para mover el formulario actual 
 
-        public void ConMoverForm()
+        private void ConMoverForm()
         {
             ReleaseCapture();
             SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
         }
 
+        public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            ConMoverForm();
+        }
+
         #endregion
+
     }
 }

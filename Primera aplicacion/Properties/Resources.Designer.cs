@@ -63,6 +63,16 @@ namespace Primera_aplicacion.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DRS_Logo_v2 {
+            get {
+                object obj = ResourceManager.GetObject("DRS-Logo-v2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fondo_DRS_v1 {
             get {
                 object obj = ResourceManager.GetObject("fondo-DRS-v1", resourceCulture);
@@ -76,6 +86,16 @@ namespace Primera_aplicacion.Properties {
         internal static System.Drawing.Bitmap fondo_DRS_v2 {
             get {
                 object obj = ResourceManager.GetObject("fondo-DRS-v2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap imgMenu {
+            get {
+                object obj = ResourceManager.GetObject("imgMenu", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

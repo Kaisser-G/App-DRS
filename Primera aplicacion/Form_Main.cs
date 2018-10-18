@@ -89,14 +89,14 @@ namespace Primera_aplicacion
             //}
 
             //inicializacion del mapa
-            gMapControl1.DragButton = MouseButtons.Left;
-            gMapControl1.CanDragMap = true;
-            gMapControl1.MapProvider = GMapProviders.GoogleMap;
-            gMapControl1.Position = new PointLatLng(LatInicial, LngInicial);
-            gMapControl1.MinZoom = 0;
-            gMapControl1.MaxZoom = 24;
-            gMapControl1.Zoom = 18;
-            gMapControl1.AutoScroll = true;
+            gMapControl.DragButton = MouseButtons.Left;
+            gMapControl.CanDragMap = true;
+            gMapControl.MapProvider = GMapProviders.GoogleMap;
+            gMapControl.Position = new PointLatLng(LatInicial, LngInicial);
+            gMapControl.MinZoom = 0;
+            gMapControl.MaxZoom = 24;
+            gMapControl.Zoom = 18;
+            gMapControl.AutoScroll = true;
 
             //Marcador
             markerOverlay = new GMapOverlay("Marcador"); //genera una capa por encima del mapa creado
@@ -109,7 +109,7 @@ namespace Primera_aplicacion
             marker.ToolTipText = "Ubicacion: Ubicacion Inicial \n Latitud: " + LatInicial + "\n Longitud: " + LngInicial;
 
             //añadir el overlay al mapa principal
-            gMapControl1.Overlays.Add(markerOverlay);
+            gMapControl.Overlays.Add(markerOverlay);
 
             //Añadir el DataTable
             dt = new DataTable();
@@ -127,9 +127,9 @@ namespace Primera_aplicacion
             dataGridView1.ReadOnly = true;
 
             #region MovimientoForm
-            //this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             //this.btn_circle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             //this.btn_Conexion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             //this.btn_cricleBorrar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
@@ -138,20 +138,20 @@ namespace Primera_aplicacion
             //this.btnEliminar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             //this.btnMin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             //this.btnUbicacion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.label4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.label5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.lbl_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.lbl_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.txt_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.txt_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.txtDescripcion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.txtLatitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.txtLongitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            ////this.gMapControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.label4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.label5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.lbl_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.lbl_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.txtDist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.txtRadio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.txtDescripcion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.txtLatitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.txtLongitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.gMapControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             #endregion
         }
 
@@ -168,7 +168,7 @@ namespace Primera_aplicacion
             }
 
             //centrar el mapa          
-            gMapControl1.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
+            gMapControl.Position = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
 
 
         }
@@ -176,8 +176,8 @@ namespace Primera_aplicacion
         private void gMapControl1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //obtener los datos de lat y lng del lugat donde se hizo doble click
-            double lat = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lat;
-            double lng = gMapControl1.FromLocalToLatLng(e.X, e.Y).Lng;
+            double lat = gMapControl.FromLocalToLatLng(e.X, e.Y).Lat;
+            double lng = gMapControl.FromLocalToLatLng(e.X, e.Y).Lng;
 
             //inicializar el marcador
             marker = new GMarkerGoogle(new PointLatLng(lat, lng), GMarkerGoogleType.red);
@@ -227,7 +227,7 @@ namespace Primera_aplicacion
                 marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + txtLatitud.Text + "\n Longitud: " + txtLongitud.Text;
 
                 //centrar el mapa
-                gMapControl1.Position = marker.Position;
+                gMapControl.Position = marker.Position;
 
                 //Agregarle un Tag al marker
                 marker.Tag = descripcion;
@@ -270,7 +270,7 @@ namespace Primera_aplicacion
             txtLongitud.Text = dataGridView1.Rows[fila].Cells[2].Value.ToString();
         }
 
-        public void btn_Conexion_Click(object sender, EventArgs e)
+        private void btnConexion_Click(object sender, EventArgs e)
         {
                 formCon = new Form_Conexion(this);
                 //Abrir el Form de conexion
@@ -283,9 +283,9 @@ namespace Primera_aplicacion
             double divisor = 1000;
             int distancia; //es la distancia en metros que se quiere que sea el radio del circulo
 
-            if (txt_dist.Text != "")
+            if (txtDist.Text != "")
             {
-                distancia = Convert.ToInt16(txt_dist.Text);
+                distancia = Convert.ToInt16(txtDist.Text);
                 /*
                  * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
                  * de radio del circulo es de aproximadamente 89m
@@ -295,10 +295,10 @@ namespace Primera_aplicacion
             else
             {
                 //Si no hay nada en el txt de distancia entonces revisa el resto
-                if (txt_radio.Text != "")
+                if (txtRadio.Text != "")
                 {
                         //Obtener el valor en el textbox
-                        radio = Convert.ToDouble(txt_radio.Text);
+                        radio = Convert.ToDouble(txtRadio.Text);
                 }
                 else
                 {
@@ -335,19 +335,16 @@ namespace Primera_aplicacion
 
             }
 
-            //Agrego un comentario
-
-
             //Se crea el poligono Circulo
             GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
             //Se agrega el circulo a la capa
             layerCirculo.Polygons.Add(circulo);
             //Se agrega la capa al mapa
-            gMapControl1.Overlays.Add(layerCirculo);
+            gMapControl.Overlays.Add(layerCirculo);
             //Se actualiza el mapa
             //gMapControl1.Refresh();
-            gMapControl1.Zoom++;
-            gMapControl1.Zoom--;
+            gMapControl.Zoom++;
+            gMapControl.Zoom--;
 
             //Se limpia la lista para el proximo circulo
             listaCirculo.Clear();            
@@ -357,51 +354,6 @@ namespace Primera_aplicacion
         {
             layerCirculo.Polygons.Clear();
         }
-       
-        //public void reasignarData(double dataLat, double dataLng)
-        //{
-        //    /*
-        //     * Tuve problemas porque al ejecutar esta funcion, al principio tiraba error de
-        //     * "referencia a objeto no establecida como instancia de un objeto", con respecto al dataTable.
-        //     * Luego el problema pasaba porque la funcion se ejecutaba pero no ocurria nada. 
-        //     * Puse un breakpoint y al observar las variables, estas estaban bien asignadas pero no ocurrian
-        //     * cambios en el form.
-        //     */
-
-        //    //obtener los datos de lat y lng del lugat donde se hizo doble click
-
-        //    //Crear el punto recibido por serial
-        //    PointLatLng CoordSerial = new PointLatLng(dataLat,dataLng);
-
-        //    Form_Main formMain = new Form_Main();
-        //    //inicializar la capa
-        //    //formMain.markerOverlay = new GMapOverlay("MarcadorSerial"); //genera una capa por encima del mapa creado
-
-        //    //inicializar el marcador
-        //    formMain.marker = new GMarkerGoogle(CoordSerial, GMarkerGoogleType.red);
-        //    formMain.markerOverlay.Markers.Add(formMain.marker);//Añadir al marcador
-
-        //    //Añado los datos a los textbox
-        //    formMain.txtDescripcion.Text = "Ubicacion " + formMain.cont;
-        //    formMain.txtLatitud.Text = dataLat.ToString();
-        //    formMain.txtLongitud.Text = dataLng.ToString();
-        //    formMain.cont++;
-
-        //    //Añade la posicion seleccionada al dt
-        //    formMain.dt.Rows.Add(formMain.txtDescripcion.Text, formMain.txtLatitud.Text, formMain.txtLongitud.Text);
-
-        //    //Colocar el marcador
-        //    formMain.marker.Position = CoordSerial;
-
-        //    //agregar el tooltip
-        //    formMain.marker.ToolTipText = "Ubicacion: " + formMain.txtDescripcion.Text + "\n Latitud: " + dataLat + "\n Longitud: " + dataLng;
-
-        //    //Agregarle un Tag al marker
-        //    formMain.marker.Tag = formMain.txtDescripcion.Text;
-
-        //    formMain.gMapControl1.Refresh();
-
-        //}
 
         #region ComunicacionSerie
         public void coordenadasSerie(double dataLat, double dataLng)
@@ -414,7 +366,7 @@ namespace Primera_aplicacion
 
             markerOverlay.Markers.Add(marker);
  
-            gMapControl1.Position = marker.Position;
+            gMapControl.Position = marker.Position;
             
             txtDescripcion.Text = "Ubicacion " + cont;
             txtLatitud.Text = CoordSerie.Lat.ToString();
@@ -431,7 +383,7 @@ namespace Primera_aplicacion
             LngInicial = lng;
 
             //centrar el mapa
-            gMapControl1.Position = new PointLatLng(LatInicial, LngInicial);
+            gMapControl.Position = new PointLatLng(LatInicial, LngInicial);
 
             //Elimina el marcador y modifica los valores de las celdas
             markerOverlay.Markers.RemoveAt(0);
@@ -450,7 +402,7 @@ namespace Primera_aplicacion
             marker.ToolTipText = "Ubicacion: Ubicacion Inicial \n Latitud: " + LatInicial + "\n Longitud: " + LngInicial;
 
             //añadir el overlay al mapa principal
-            gMapControl1.Overlays.Add(markerOverlay);
+            gMapControl.Overlays.Add(markerOverlay);
    
         }
         #endregion
@@ -464,13 +416,16 @@ namespace Primera_aplicacion
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                formCon.Close();
-                this.Close();
-            }
-            catch
-            { this.Close(); }
+            //formCon.CerrarForm();
+            ////try
+            ////{
+            ////    formCon.Close();
+            //this.Close();
+            //}
+            //catch
+            //{ this.Close(); }
+            formCon.Hide();
+            Application.ExitThread();
         }
 
         private void btnMin_Click(object sender, EventArgs e)
@@ -501,10 +456,12 @@ namespace Primera_aplicacion
 
         private void FormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            formCon = new Form_Conexion(this);
+            Form_Conexion frm = new Form_Conexion(this);
             moverForm();
-            formCon.ConMoverForm();
+            frm.ConFormMouseMove(sender, e);
         }
         #endregion
+
+
     }
 }
