@@ -48,7 +48,6 @@ namespace Primera_aplicacion
         public Form_Conexion(Form_Main nombre)
         {
             InitializeComponent();
-
             Form_Main = nombre;
         }
 
@@ -225,5 +224,26 @@ namespace Primera_aplicacion
         {
             this.Hide();
         }
+
+        #region CopiadoDeInternet
+        const int WM_SYSCOMMAND = 0x112;
+        const int MOUSE_MOVE = 0xF012;
+
+        // Declaraciones del API 
+        [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        // 
+        [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        // 
+        // función privada usada para mover el formulario actual 
+
+        public void ConMoverForm()
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
+        }
+
+        #endregion
     }
 }

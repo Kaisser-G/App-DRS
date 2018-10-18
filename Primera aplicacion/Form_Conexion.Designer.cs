@@ -315,6 +315,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form_Conexion";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Conectar";
             this.TopMost = true;

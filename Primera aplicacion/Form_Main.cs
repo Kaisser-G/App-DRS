@@ -58,7 +58,7 @@ namespace Primera_aplicacion
         //GMapOverlay overlaySerial;
 
         //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
-        Form_Conexion Form_Conexion;
+        Form_Conexion formCon;
         
         //contador para la descripcion de los datos recibidos por puerto serie
         //int contData = 1;
@@ -125,6 +125,34 @@ namespace Primera_aplicacion
             dataGridView1.Columns[1].Visible = false;
             dataGridView1.Columns[2].Visible = false;
             dataGridView1.ReadOnly = true;
+
+            #region MovimientoForm
+            //this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btn_circle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btn_Conexion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btn_cricleBorrar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btnAgregar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btnCerrar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btnEliminar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btnMin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.btnUbicacion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.label4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.label5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.lbl_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.lbl_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.txt_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.txt_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.txtDescripcion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.txtLatitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.txtLongitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            ////this.gMapControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            //this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            #endregion
         }
 
         private void Seleccionar_registro(object sender, DataGridViewCellMouseEventArgs e)
@@ -242,11 +270,11 @@ namespace Primera_aplicacion
             txtLongitud.Text = dataGridView1.Rows[fila].Cells[2].Value.ToString();
         }
 
-        private void btn_Conexion_Click(object sender, EventArgs e)
+        public void btn_Conexion_Click(object sender, EventArgs e)
         {
-                Form_Conexion = new Form_Conexion(this);
+                formCon = new Form_Conexion(this);
                 //Abrir el Form de conexion
-                Form_Conexion.Show(this);
+                formCon.Show(this);
         }
 
         private void btn_circle_Click(object sender, EventArgs e)
@@ -431,15 +459,14 @@ namespace Primera_aplicacion
         {
             //PointLatLng coord = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
             string dato = txtLatitud.Text + ";" + txtLongitud.Text;
-
-            Form_Conexion.enviarCoordenadas(dato);
+            formCon.enviarCoordenadas(dato);
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             try
             {
-                Form_Conexion.Close();
+                formCon.Close();
                 this.Close();
             }
             catch
@@ -452,6 +479,32 @@ namespace Primera_aplicacion
         }
 
 
+        #region ConfigMov
+        const int WM_SYSCOMMAND = 0x112;
+        const int MOUSE_MOVE = 0xF012;
 
+        // Declaraciones del API 
+        [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        // 
+        [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        // 
+        // función privada usada para mover el formulario actual 
+
+        private void moverForm()
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
+        }
+
+
+        private void FormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            formCon = new Form_Conexion(this);
+            moverForm();
+            formCon.ConMoverForm();
+        }
+        #endregion
     }
 }
