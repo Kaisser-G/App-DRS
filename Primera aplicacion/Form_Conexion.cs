@@ -1,15 +1,8 @@
 ﻿/*
- * Tengo que crear una funcion para enviar los datos por el puerto serie
  * 
+ * Finalizar con las funciones de puerto serie para que manejen el protocolo final
+ * Arreglar el movimiento del formulario
  * 
- * -Iniciar app (Form_Main)                                                 listo
- * -Abrir el Form_Conexion                                                  listo
- * -Abrir el puerto serie                                                   listo
- * -Enviar aviso de que inicio la app                                       listo
- * -Recbir datos de Coordenadas iniciales (y bateria)                       listo   
- * -Setear las Coordenadas Iniciales en el Main                             listo
- * -Colocar los marcadores en el main                                       listo
- * -Enviar el marcador seleccionado por puerto serie (desde el main)        listo
  */
 
 using System;
@@ -29,8 +22,7 @@ namespace Primera_aplicacion
 {
     public partial class Form_Conexion : Form
     {
-        //PROVISORIO (public)
-        public Boolean conectado = false;
+        Boolean conectado = false;
 
         public double datosLat = 0, datosLng = 0;
         string initCom = "in"; //Caracteres enviados para hacer saber que la app esta funcionando 
@@ -57,7 +49,7 @@ namespace Primera_aplicacion
             this.Location = Form_Main.Location;
             this.Hide();
 
-            this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
+            //this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -185,9 +177,11 @@ namespace Primera_aplicacion
         //inicializa la parte de comunicacion de la app
         private void Setup()
         {
- //           -Enviar aviso de que inicio la app                        listo
- //           -Recbir datos de Coordenadas iniciales (y bateria)        listo
- //           -Setear las Coordenadas Iniciales en el Main              listo
+            /*
+             * -Enviar aviso de que inicio la app                        
+             * -Recbir datos de Coordenadas iniciales (y bateria)        
+             * -Setear las Coordenadas Iniciales en el Main              
+             */
             string coordenadas;
 
             iniciarCom();
@@ -222,7 +216,7 @@ namespace Primera_aplicacion
             if (conectado) serialPort1.WriteLine(dato);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnMenu_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
@@ -240,18 +234,29 @@ namespace Primera_aplicacion
         // 
         // función privada usada para mover el formulario actual 
 
-        private void ConMoverForm()
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
-        }
+        //private void ConMoverForm()
+        //{
+        //    ReleaseCapture();
+        //    SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
+        //}
 
-        public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            ConMoverForm();
-        }
+        //public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        //{
+        //    ConMoverForm();
+        //}
 
         #endregion
 
+        /*No funciona*/
+        public void reajustarPos(Point posicion)
+        {
+            if (this.Visible)
+            {
+                this.Location = posicion;
+                this.Hide();
+                this.Show();
+            }
+        }
+        /********************/
     }
 }

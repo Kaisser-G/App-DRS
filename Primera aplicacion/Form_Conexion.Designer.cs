@@ -242,7 +242,7 @@
             this.btnMenu.Size = new System.Drawing.Size(30, 30);
             this.btnMenu.TabIndex = 11;
             this.btnMenu.UseVisualStyleBackColor = false;
-            this.btnMenu.Click += new System.EventHandler(this.button1_Click);
+            this.btnMenu.Click += new System.EventHandler(this.btnMenu_Click);
             // 
             // label5
             // 

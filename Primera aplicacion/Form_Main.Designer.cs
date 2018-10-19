@@ -54,10 +54,11 @@
             this.lbl_dist = new System.Windows.Forms.Label();
             this.btnUbicacion = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnMin = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.btnConexion = new System.Windows.Forms.Button();
+            this.btnRango = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -358,6 +359,18 @@
             this.panel2.Size = new System.Drawing.Size(743, 40);
             this.panel2.TabIndex = 24;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Image = global::Primera_aplicacion.Properties.Resources.DRS_Logo_v2;
+            this.button1.Location = new System.Drawing.Point(355, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(53, 30);
+            this.button1.TabIndex = 15;
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // btnMin
             // 
             this.btnMin.BackColor = System.Drawing.Color.RoyalBlue;
@@ -392,18 +405,6 @@
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Image = global::Primera_aplicacion.Properties.Resources.DRS_Logo_v2;
-            this.button1.Location = new System.Drawing.Point(370, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(53, 30);
-            this.button1.TabIndex = 15;
-            this.button1.UseVisualStyleBackColor = false;
-            // 
             // btnConexion
             // 
             this.btnConexion.BackColor = System.Drawing.Color.Transparent;
@@ -419,6 +420,19 @@
             this.btnConexion.UseVisualStyleBackColor = false;
             this.btnConexion.Click += new System.EventHandler(this.btnConexion_Click);
             // 
+            // btnRango
+            // 
+            this.btnRango.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnRango.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRango.ForeColor = System.Drawing.Color.White;
+            this.btnRango.Location = new System.Drawing.Point(622, 369);
+            this.btnRango.Name = "btnRango";
+            this.btnRango.Size = new System.Drawing.Size(97, 34);
+            this.btnRango.TabIndex = 25;
+            this.btnRango.Text = "Rango";
+            this.btnRango.UseVisualStyleBackColor = false;
+            this.btnRango.Click += new System.EventHandler(this.btnRango_Click);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -428,6 +442,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(743, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.btnRango);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnUbicacion);
             this.Controls.Add(this.txtDist);
@@ -455,6 +470,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Google Maps";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.LocationChanged += new System.EventHandler(this.cambioPos);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -495,6 +511,7 @@
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Button btnMin;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRango;
     }
 }
 

@@ -49,6 +49,8 @@ namespace Primera_aplicacion
         double LatInicial = -34.706845093052735;
         double LngInicial = -58.23879250387637;
         int cont = 1;
+        public int rango; //rango aproximado en metros del alcance del dron
+        bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
 
         //variables utilizadas para la creacion de poligonos
         List<PointLatLng> listaCirculo = new List<PointLatLng>();
@@ -456,12 +458,81 @@ namespace Primera_aplicacion
 
         private void FormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Form_Conexion frm = new Form_Conexion(this);
             moverForm();
-            frm.ConFormMouseMove(sender, e);
         }
         #endregion
+    
+        /*No funciona*/
+        private void cambioPos(object sender, EventArgs e)
+        {
+            formCon = new Form_Conexion(this);
 
+            formCon.reajustarPos(this.Location);
+        }
+        /********************/
+
+        private void btnRango_Click(object sender, EventArgs e)
+        {
+            if (!rangoOnOff)  //si el circulo no esta dbujado
+            {
+                double radio;
+
+                /*
+                 * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
+                 * de radio del circulo es de aproximadamente 89m
+                 */
+                radio = rango / 89.0;
+
+                //Cant de puntos para dibujar el circulo
+                int puntos = 360;
+
+                //Angulo entre dos puntos, en radianes
+                double angSegmentos = 2 * Math.PI / puntos;
+
+                PointLatLng centro = new PointLatLng();
+                centro.Lat = LatInicial;
+                centro.Lng = LngInicial;
+
+                double ang;
+
+                for (int i = 1; i <= puntos; i++)
+                {
+                    //Se crean los puntos variando el angulo y se los agrega a la lista
+                    ang = angSegmentos * i;
+                    double a = centro.Lat + Math.Sin(ang) * radio;
+                    double b = centro.Lng + Math.Cos(ang) * radio;
+
+                    PointLatLng marca = new PointLatLng(a, b);
+                    listaCirculo.Add(marca);
+
+                }
+
+                //Se crea el poligono Circulo
+                GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
+                //Se agrega el circulo a la capa
+                layerCirculo.Polygons.Add(circulo);
+                //Se agrega la capa al mapa
+                gMapControl.Overlays.Add(layerCirculo);
+                //Se actualiza el mapa
+                //gMapControl1.Refresh();
+                gMapControl.Zoom++;
+                gMapControl.Zoom--;
+
+                //Se limpia la lista para el proximo circulo
+                listaCirculo.Clear();
+
+                //Se indica que el rango esta dbujado
+                rangoOnOff = true;
+            }
+            else
+            {
+                layerCirculo.Polygons.Clear();
+                //Se indica que el circulo esta borrado
+                rangoOnOff = true;
+            }
+
+        }
+        
 
     }
 }
