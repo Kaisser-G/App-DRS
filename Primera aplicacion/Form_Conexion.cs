@@ -37,6 +37,7 @@ namespace Primera_aplicacion
         {
             InitializeComponent();
             Form_Main = nombre;
+       //     this.MdiParent = Form_Main;
         }
 
         private void Form_Conexion_Load(object sender, EventArgs e)
@@ -45,6 +46,8 @@ namespace Primera_aplicacion
             this.Location = Form_Main.Location;
             this.Hide();
 
+            //Asigna la funcion de movimiento para las acciones de hacer click sobre partes del formulario
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
             this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
             this.lblConectar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
         }
@@ -146,18 +149,14 @@ namespace Primera_aplicacion
              */
             string coordenadas;
 
+            //envia los datos de inicio
             iniciarCom();
+            //espera a que lleguen datos por el puerto serie
             while (serialPort1.BytesToRead == 0) { }
             coordenadas = recibirDatos();  //lee el puerto serie
             string[] Dts = coordenadas.Split(new Char[] { ';' }, 2); //separa la lat de la longitud
+            //setea las coordenadas iniciales
             Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
-        }
-
-        //Mantiene abierto el form
-        private void Form_Conexion_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            this.Hide();
         }
 
         //Envia el string de inicio, espera a recibir datos y los devuelve
@@ -186,9 +185,7 @@ namespace Primera_aplicacion
 
    #region MovForm
         const int WM_SYSCOMMAND = 0x112;
-            
-            
-            const int MOUSE_MOVE = 0xF012;
+        const int MOUSE_MOVE = 0xF012;
 
         // Declaraciones del API 
         [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -205,7 +202,7 @@ namespace Primera_aplicacion
             SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
         }
 
-        public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             ConMoverForm();
         }

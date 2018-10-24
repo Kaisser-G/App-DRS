@@ -40,18 +40,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnCirculo = new System.Windows.Forms.Button();
-            this.lbl_radio = new System.Windows.Forms.Label();
-            this.btnBorrarCirculo = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.cbx_corto = new System.Windows.Forms.CheckBox();
-            this.cbx_medio = new System.Windows.Forms.CheckBox();
-            this.cbx_largo = new System.Windows.Forms.CheckBox();
-            this.txtRadio = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.txtDist = new System.Windows.Forms.TextBox();
-            this.lbl_dist = new System.Windows.Forms.Label();
             this.btnUbicacion = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
@@ -60,9 +50,21 @@
             this.btnConexion = new System.Windows.Forms.Button();
             this.btnRango = new System.Windows.Forms.Button();
             this.btnUbicaciones = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.btnBarra = new System.Windows.Forms.Button();
+            this.btnCirculo = new System.Windows.Forms.Button();
+            this.lbl_radio = new System.Windows.Forms.Label();
+            this.btnBorrarCirculo = new System.Windows.Forms.Button();
+            this.cbx_largo = new System.Windows.Forms.CheckBox();
+            this.cbx_medio = new System.Windows.Forms.CheckBox();
+            this.cbx_corto = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtRadio = new System.Windows.Forms.TextBox();
+            this.lbl_dist = new System.Windows.Forms.Label();
+            this.txtDist = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMapControl
@@ -197,97 +199,6 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Conectar";
             // 
-            // btnCirculo
-            // 
-            this.btnCirculo.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnCirculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCirculo.ForeColor = System.Drawing.Color.White;
-            this.btnCirculo.Location = new System.Drawing.Point(622, 287);
-            this.btnCirculo.Name = "btnCirculo";
-            this.btnCirculo.Size = new System.Drawing.Size(97, 34);
-            this.btnCirculo.TabIndex = 13;
-            this.btnCirculo.Text = "Crear Circulo";
-            this.btnCirculo.UseVisualStyleBackColor = false;
-            this.btnCirculo.Click += new System.EventHandler(this.btn_circle_Click);
-            // 
-            // lbl_radio
-            // 
-            this.lbl_radio.AutoSize = true;
-            this.lbl_radio.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_radio.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_radio.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_radio.Location = new System.Drawing.Point(619, 165);
-            this.lbl_radio.Name = "lbl_radio";
-            this.lbl_radio.Size = new System.Drawing.Size(48, 19);
-            this.lbl_radio.TabIndex = 15;
-            this.lbl_radio.Text = "Radio:";
-            // 
-            // btnBorrarCirculo
-            // 
-            this.btnBorrarCirculo.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnBorrarCirculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBorrarCirculo.ForeColor = System.Drawing.Color.White;
-            this.btnBorrarCirculo.Location = new System.Drawing.Point(629, 327);
-            this.btnBorrarCirculo.Name = "btnBorrarCirculo";
-            this.btnBorrarCirculo.Size = new System.Drawing.Size(75, 23);
-            this.btnBorrarCirculo.TabIndex = 16;
-            this.btnBorrarCirculo.Text = "Borrar";
-            this.btnBorrarCirculo.UseVisualStyleBackColor = false;
-            this.btnBorrarCirculo.Click += new System.EventHandler(this.btn_cricleBorrar_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.cbx_corto);
-            this.panel1.Controls.Add(this.cbx_medio);
-            this.panel1.Controls.Add(this.cbx_largo);
-            this.panel1.Location = new System.Drawing.Point(623, 209);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(96, 70);
-            this.panel1.TabIndex = 17;
-            // 
-            // cbx_corto
-            // 
-            this.cbx_corto.AutoSize = true;
-            this.cbx_corto.Location = new System.Drawing.Point(6, 49);
-            this.cbx_corto.Name = "cbx_corto";
-            this.cbx_corto.Size = new System.Drawing.Size(50, 17);
-            this.cbx_corto.TabIndex = 2;
-            this.cbx_corto.Tag = "radio";
-            this.cbx_corto.Text = "corto";
-            this.cbx_corto.UseVisualStyleBackColor = true;
-            // 
-            // cbx_medio
-            // 
-            this.cbx_medio.AutoSize = true;
-            this.cbx_medio.Location = new System.Drawing.Point(6, 26);
-            this.cbx_medio.Name = "cbx_medio";
-            this.cbx_medio.Size = new System.Drawing.Size(54, 17);
-            this.cbx_medio.TabIndex = 1;
-            this.cbx_medio.Tag = "radio";
-            this.cbx_medio.Text = "medio";
-            this.cbx_medio.UseVisualStyleBackColor = true;
-            // 
-            // cbx_largo
-            // 
-            this.cbx_largo.AutoSize = true;
-            this.cbx_largo.Location = new System.Drawing.Point(6, 3);
-            this.cbx_largo.Name = "cbx_largo";
-            this.cbx_largo.Size = new System.Drawing.Size(49, 17);
-            this.cbx_largo.TabIndex = 0;
-            this.cbx_largo.Tag = "radio";
-            this.cbx_largo.Text = "largo";
-            this.cbx_largo.UseVisualStyleBackColor = true;
-            // 
-            // txtRadio
-            // 
-            this.txtRadio.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtRadio.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRadio.Location = new System.Drawing.Point(623, 183);
-            this.txtRadio.Name = "txtRadio";
-            this.txtRadio.Size = new System.Drawing.Size(96, 15);
-            this.txtRadio.TabIndex = 19;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -311,27 +222,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(153, 180);
             this.dataGridView1.TabIndex = 9;
             this.dataGridView1.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.Seleccionar_registro);
-            // 
-            // txtDist
-            // 
-            this.txtDist.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtDist.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDist.Location = new System.Drawing.Point(623, 142);
-            this.txtDist.Name = "txtDist";
-            this.txtDist.Size = new System.Drawing.Size(96, 15);
-            this.txtDist.TabIndex = 22;
-            // 
-            // lbl_dist
-            // 
-            this.lbl_dist.AutoSize = true;
-            this.lbl_dist.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_dist.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_dist.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lbl_dist.Location = new System.Drawing.Point(619, 120);
-            this.lbl_dist.Name = "lbl_dist";
-            this.lbl_dist.Size = new System.Drawing.Size(103, 19);
-            this.lbl_dist.TabIndex = 21;
-            this.lbl_dist.Text = "Dist en metros:";
             // 
             // btnUbicacion
             // 
@@ -426,7 +316,7 @@
             this.btnRango.BackColor = System.Drawing.Color.DarkSlateGray;
             this.btnRango.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRango.ForeColor = System.Drawing.Color.White;
-            this.btnRango.Location = new System.Drawing.Point(622, 369);
+            this.btnRango.Location = new System.Drawing.Point(622, 303);
             this.btnRango.Name = "btnRango";
             this.btnRango.Size = new System.Drawing.Size(97, 34);
             this.btnRango.TabIndex = 25;
@@ -439,13 +329,148 @@
             this.btnUbicaciones.BackColor = System.Drawing.Color.DarkSlateGray;
             this.btnUbicaciones.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUbicaciones.ForeColor = System.Drawing.Color.White;
-            this.btnUbicaciones.Location = new System.Drawing.Point(623, 409);
+            this.btnUbicaciones.Location = new System.Drawing.Point(623, 343);
             this.btnUbicaciones.Name = "btnUbicaciones";
             this.btnUbicaciones.Size = new System.Drawing.Size(97, 34);
             this.btnUbicaciones.TabIndex = 27;
             this.btnUbicaciones.Text = "Afectados";
             this.btnUbicaciones.UseVisualStyleBackColor = false;
             this.btnUbicaciones.Click += new System.EventHandler(this.btnUbicaciones_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.BackColor = System.Drawing.Color.Firebrick;
+            this.progressBar1.ForeColor = System.Drawing.Color.PaleGreen;
+            this.progressBar1.Location = new System.Drawing.Point(622, 383);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(97, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 29;
+            // 
+            // btnBarra
+            // 
+            this.btnBarra.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnBarra.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBarra.ForeColor = System.Drawing.Color.White;
+            this.btnBarra.Location = new System.Drawing.Point(622, 412);
+            this.btnBarra.Name = "btnBarra";
+            this.btnBarra.Size = new System.Drawing.Size(97, 34);
+            this.btnBarra.TabIndex = 30;
+            this.btnBarra.Text = "Step";
+            this.btnBarra.UseVisualStyleBackColor = false;
+            this.btnBarra.Click += new System.EventHandler(this.btnBarra_Click);
+            // 
+            // btnCirculo
+            // 
+            this.btnCirculo.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnCirculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCirculo.ForeColor = System.Drawing.Color.White;
+            this.btnCirculo.Location = new System.Drawing.Point(623, 221);
+            this.btnCirculo.Name = "btnCirculo";
+            this.btnCirculo.Size = new System.Drawing.Size(97, 34);
+            this.btnCirculo.TabIndex = 13;
+            this.btnCirculo.Text = "Crear Circulo";
+            this.btnCirculo.UseVisualStyleBackColor = false;
+            this.btnCirculo.Click += new System.EventHandler(this.btn_circle_Click);
+            // 
+            // lbl_radio
+            // 
+            this.lbl_radio.AutoSize = true;
+            this.lbl_radio.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_radio.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_radio.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_radio.Location = new System.Drawing.Point(620, 99);
+            this.lbl_radio.Name = "lbl_radio";
+            this.lbl_radio.Size = new System.Drawing.Size(48, 19);
+            this.lbl_radio.TabIndex = 15;
+            this.lbl_radio.Text = "Radio:";
+            // 
+            // btnBorrarCirculo
+            // 
+            this.btnBorrarCirculo.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnBorrarCirculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBorrarCirculo.ForeColor = System.Drawing.Color.White;
+            this.btnBorrarCirculo.Location = new System.Drawing.Point(630, 261);
+            this.btnBorrarCirculo.Name = "btnBorrarCirculo";
+            this.btnBorrarCirculo.Size = new System.Drawing.Size(75, 23);
+            this.btnBorrarCirculo.TabIndex = 16;
+            this.btnBorrarCirculo.Text = "Borrar";
+            this.btnBorrarCirculo.UseVisualStyleBackColor = false;
+            this.btnBorrarCirculo.Click += new System.EventHandler(this.btn_cricleBorrar_Click);
+            // 
+            // cbx_largo
+            // 
+            this.cbx_largo.AutoSize = true;
+            this.cbx_largo.Location = new System.Drawing.Point(6, 3);
+            this.cbx_largo.Name = "cbx_largo";
+            this.cbx_largo.Size = new System.Drawing.Size(49, 17);
+            this.cbx_largo.TabIndex = 0;
+            this.cbx_largo.Tag = "radio";
+            this.cbx_largo.Text = "largo";
+            this.cbx_largo.UseVisualStyleBackColor = true;
+            // 
+            // cbx_medio
+            // 
+            this.cbx_medio.AutoSize = true;
+            this.cbx_medio.Location = new System.Drawing.Point(6, 26);
+            this.cbx_medio.Name = "cbx_medio";
+            this.cbx_medio.Size = new System.Drawing.Size(54, 17);
+            this.cbx_medio.TabIndex = 1;
+            this.cbx_medio.Tag = "radio";
+            this.cbx_medio.Text = "medio";
+            this.cbx_medio.UseVisualStyleBackColor = true;
+            // 
+            // cbx_corto
+            // 
+            this.cbx_corto.AutoSize = true;
+            this.cbx_corto.Location = new System.Drawing.Point(6, 49);
+            this.cbx_corto.Name = "cbx_corto";
+            this.cbx_corto.Size = new System.Drawing.Size(50, 17);
+            this.cbx_corto.TabIndex = 2;
+            this.cbx_corto.Tag = "radio";
+            this.cbx_corto.Text = "corto";
+            this.cbx_corto.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.cbx_corto);
+            this.panel1.Controls.Add(this.cbx_medio);
+            this.panel1.Controls.Add(this.cbx_largo);
+            this.panel1.Location = new System.Drawing.Point(624, 143);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(96, 70);
+            this.panel1.TabIndex = 17;
+            // 
+            // txtRadio
+            // 
+            this.txtRadio.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtRadio.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRadio.Location = new System.Drawing.Point(624, 117);
+            this.txtRadio.Name = "txtRadio";
+            this.txtRadio.Size = new System.Drawing.Size(96, 15);
+            this.txtRadio.TabIndex = 19;
+            // 
+            // lbl_dist
+            // 
+            this.lbl_dist.AutoSize = true;
+            this.lbl_dist.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_dist.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_dist.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lbl_dist.Location = new System.Drawing.Point(620, 54);
+            this.lbl_dist.Name = "lbl_dist";
+            this.lbl_dist.Size = new System.Drawing.Size(103, 19);
+            this.lbl_dist.TabIndex = 21;
+            this.lbl_dist.Text = "Dist en metros:";
+            // 
+            // txtDist
+            // 
+            this.txtDist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtDist.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDist.Location = new System.Drawing.Point(624, 76);
+            this.txtDist.Name = "txtDist";
+            this.txtDist.Size = new System.Drawing.Size(96, 15);
+            this.txtDist.TabIndex = 22;
             // 
             // Form_Main
             // 
@@ -456,6 +481,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(743, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.btnBarra);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnUbicaciones);
             this.Controls.Add(this.btnRango);
             this.Controls.Add(this.panel2);
@@ -480,18 +507,17 @@
             this.Controls.Add(this.gMapControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Google Maps";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.LocationChanged += new System.EventHandler(this.cambioPos);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.LocationChanged += new System.EventHandler(this.Form_Main_LocationChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -510,18 +536,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnConexion;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnCirculo;
-        private System.Windows.Forms.Label lbl_radio;
-        private System.Windows.Forms.Button btnBorrarCirculo;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox cbx_corto;
-        private System.Windows.Forms.CheckBox cbx_medio;
-        private System.Windows.Forms.CheckBox cbx_largo;
-        private System.Windows.Forms.TextBox txtRadio;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox txtDist;
-        private System.Windows.Forms.Label lbl_dist;
         private System.Windows.Forms.Button btnUbicacion;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnCerrar;
@@ -529,6 +545,18 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnRango;
         private System.Windows.Forms.Button btnUbicaciones;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button btnBarra;
+        private System.Windows.Forms.Button btnCirculo;
+        private System.Windows.Forms.Label lbl_radio;
+        private System.Windows.Forms.Button btnBorrarCirculo;
+        private System.Windows.Forms.CheckBox cbx_largo;
+        private System.Windows.Forms.CheckBox cbx_medio;
+        private System.Windows.Forms.CheckBox cbx_corto;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox txtRadio;
+        private System.Windows.Forms.Label lbl_dist;
+        private System.Windows.Forms.TextBox txtDist;
     }
 }
 

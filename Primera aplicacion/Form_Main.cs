@@ -46,11 +46,16 @@ namespace Primera_aplicacion
         DataTable dt;
 
         int fila_seleccionada;
-        double LatInicial = -34.706845093052735;
-        double LngInicial = -58.23879250387637;
+        //Bs As
+        //double LatInicial = -34.706845093052735;
+        //double LngInicial = -58.23879250387637;
+
+        //Cordoba
+        double LatInicial = -31.4112677;
+        double LngInicial = -64.1764772;
         int cont = 1; //contador para las ubicaciones seleccionadas
         int contAux = 1; //contador para las ubicaciones de auxilio
-        public int rango; //rango aproximado en metros del alcance del dron
+        public int rango = 300; //rango aproximado en metros del alcance del dron
         bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
 
         //variables utilizadas para la creacion de poligonos
@@ -90,12 +95,6 @@ namespace Primera_aplicacion
         {
             //Instanciar al cliente
             cliente = new FireSharp.FirebaseClient(config);
-
-            //Prueba de conexion del cliente   //Funciono
-            //if(cliente != null)
-            //{
-            //    MessageBox.Show("Conexion Establecida");
-            //}
 
             //inicializacion del mapa
             gMapControl.DragButton = MouseButtons.Left;
@@ -219,6 +218,8 @@ namespace Primera_aplicacion
             try
             {
                 string descripcion;
+
+                //Si la casilla esta en blanco, inserta una descripcion por defecto
                 if (txtDescripcion.Text != "")
                     descripcion = txtDescripcion.Text;
                 else
@@ -287,6 +288,7 @@ namespace Primera_aplicacion
             PointLatLng ubicacion = new PointLatLng();
             ubicacion.Lat = Latitud;
             ubicacion.Lng = Longitud;
+
             //inicializar el marcador
             marker = new GMarkerGoogle(ubicacion, GMarkerGoogleType.orange);
             serialOverlay.Markers.Add(marker);//Añadir al marcador
@@ -427,6 +429,7 @@ namespace Primera_aplicacion
             cont++;
         }
 
+        //Recibe un par de coordenadas y las setea como las coordenadas iniciales de la app
         public void coordenadasIniciales(double lat, double lng)
         {
             LatInicial = lat;
@@ -457,23 +460,44 @@ namespace Primera_aplicacion
         }
         #endregion
 
-
+        //Agarra la latitud y la longitud seleccionadas y las envia por el puerto serie
         private void btnUbicacion_Click(object sender, EventArgs e)
         {
-            //PointLatLng coord = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
-            string dato = txtLatitud.Text + ";" + txtLongitud.Text;
-            formCon.enviarCoordenadas(dato);
+            try
+            {
+                string dato = txtLatitud.Text + ";" + txtLongitud.Text;
+                formCon.enviarCoordenadas(dato);
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
+
+
         #region FuncionesSistema
+
+
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            formCon.Hide();
-            Application.ExitThread();
+            if(formCon!=null){
+                formCon.Hide();
+                Application.ExitThread();
+            }
+            else { Application.ExitThread(); }
         }
 
         private void btnMin_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            if (formCon != null)
+            {
+                formCon.WindowState = FormWindowState.Minimized;
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
         #endregion
 
@@ -485,12 +509,11 @@ namespace Primera_aplicacion
         // Declaraciones del API 
         [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
-        // 
+
         [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "SendMessage")]
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
-        // 
+        
         // función privada usada para mover el formulario actual 
-
         private void moverForm()
         {
             ReleaseCapture();
@@ -533,8 +556,8 @@ namespace Primera_aplicacion
                 {
                     //Se crean los puntos variando el angulo y se los agrega a la lista
                     ang = angSegmentos * i;
-                    double a = centro.Lat + Math.Sin(ang) * radio;
-                    double b = centro.Lng + Math.Cos(ang) * radio;
+                    double a = centro.Lat + Math.Sin(ang) * radio / 1000;
+                    double b = centro.Lng + Math.Cos(ang) * radio / 1000;
 
                     PointLatLng marca = new PointLatLng(a, b);
                     listaCirculo.Add(marca);
@@ -610,6 +633,17 @@ namespace Primera_aplicacion
                     break;
                 }
             }
+        }
+
+        private void Form_Main_LocationChanged(object sender, EventArgs e)
+        {
+            if(formCon != null)
+            formCon.Location = this.Location;
+        }
+
+        private void btnBarra_Click(object sender, EventArgs e)
+        {
+            progressBar1.PerformStep();
         }
         
 
