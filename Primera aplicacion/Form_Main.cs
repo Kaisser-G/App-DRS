@@ -136,29 +136,16 @@ namespace Primera_aplicacion
 
             #region MovimientoForm
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btn_circle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btn_Conexion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btn_cricleBorrar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btnAgregar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btnCerrar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btnEliminar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btnMin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.btnUbicacion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
+            this.button1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.label1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.label2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.label3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.label4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.label5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            this.lbl_dist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            this.lbl_radio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            this.txtDist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            this.txtRadio.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.txtDescripcion.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.txtLatitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.txtLongitud.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
-            //this.gMapControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             #endregion
         }
@@ -327,83 +314,83 @@ namespace Primera_aplicacion
 
 
         #region CirculoTest
-        private void btn_circle_Click(object sender, EventArgs e)
-        {
-            double radio = 1;
-            double divisor = 1000;
-            int distancia; //es la distancia en metros que se quiere que sea el radio del circulo
+        //private void btn_circle_Click(object sender, EventArgs e)
+        //{
+        //    double radio = 1;
+        //    double divisor = 1000;
+        //    int distancia; //es la distancia en metros que se quiere que sea el radio del circulo
 
-            if (txtDist.Text != "")
-            {
-                distancia = Convert.ToInt16(txtDist.Text);
-                /*
-                 * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
-                 * de radio del circulo es de aproximadamente 89m
-                 */
-                radio = distancia / 89.0;
-            }
-            else
-            {
-                //Si no hay nada en el txt de distancia entonces revisa el resto
-                if (txtRadio.Text != "")
-                {
-                        //Obtener el valor en el textbox
-                        radio = Convert.ToDouble(txtRadio.Text);
-                }
-                else
-                {
-                    //Si no se ingreso nada en el textbox, se utiliza la seleccion de los checkbox
-                    divisor = 100;
-                    if (cbx_corto.Checked == true) { divisor = 1000; }
-                    else if (cbx_medio.Checked == true) { divisor = 500; }
-                    else if (cbx_largo.Checked == true) { divisor = 100; }
-                    else radio = 1;
-                }
-            }
+        //    if (txtDist.Text != "")
+        //    {
+        //        distancia = Convert.ToInt16(txtDist.Text);
+        //        /*
+        //         * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
+        //         * de radio del circulo es de aproximadamente 89m
+        //         */
+        //        radio = distancia / 89.0;
+        //    }
+        //    else
+        //    {
+        //        //Si no hay nada en el txt de distancia entonces revisa el resto
+        //        if (txtRadio.Text != "")
+        //        {
+        //                //Obtener el valor en el textbox
+        //                radio = Convert.ToDouble(txtRadio.Text);
+        //        }
+        //        else
+        //        {
+        //            //Si no se ingreso nada en el textbox, se utiliza la seleccion de los checkbox
+        //            divisor = 100;
+        //            if (cbx_corto.Checked == true) { divisor = 1000; }
+        //            else if (cbx_medio.Checked == true) { divisor = 500; }
+        //            else if (cbx_largo.Checked == true) { divisor = 100; }
+        //            else radio = 1;
+        //        }
+        //    }
 
-            //Cant de puntos para dibujar el circulo
-            int puntos = 360;
+        //    //Cant de puntos para dibujar el circulo
+        //    int puntos = 360;
 
-            //Angulo entre dos puntos, en radianes
-            double angSegmentos = 2 * Math.PI / puntos;
+        //    //Angulo entre dos puntos, en radianes
+        //    double angSegmentos = 2 * Math.PI / puntos;
 
-            PointLatLng centro = new PointLatLng();
-            centro.Lat = LatInicial;
-            centro.Lng = LngInicial;
+        //    PointLatLng centro = new PointLatLng();
+        //    centro.Lat = LatInicial;
+        //    centro.Lng = LngInicial;
 
-            double ang;
+        //    double ang;
 
-            for (int i = 1; i <= puntos ; i++)
-            {
-                //Se crean los puntos variando el angulo y se los agrega a la lista
-                ang = angSegmentos * i;
-                double a = centro.Lat + Math.Sin(ang) * radio  / divisor;
-                double b = centro.Lng + Math.Cos(ang) * radio / divisor;
+        //    for (int i = 1; i <= puntos ; i++)
+        //    {
+        //        //Se crean los puntos variando el angulo y se los agrega a la lista
+        //        ang = angSegmentos * i;
+        //        double a = centro.Lat + Math.Sin(ang) * radio  / divisor;
+        //        double b = centro.Lng + Math.Cos(ang) * radio / divisor;
 
-                PointLatLng marca = new PointLatLng(a, b);
-                listaCirculo.Add(marca);
+        //        PointLatLng marca = new PointLatLng(a, b);
+        //        listaCirculo.Add(marca);
 
-            }
+        //    }
 
-            //Se crea el poligono Circulo
-            GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
-            //Se agrega el circulo a la capa
-            layerCirculo.Polygons.Add(circulo);
-            //Se agrega la capa al mapa
-            gMapControl.Overlays.Add(layerCirculo);
-            //Se actualiza el mapa
-            //gMapControl1.Refresh();
-            gMapControl.Zoom++;
-            gMapControl.Zoom--;
+        //    //Se crea el poligono Circulo
+        //    GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
+        //    //Se agrega el circulo a la capa
+        //    layerCirculo.Polygons.Add(circulo);
+        //    //Se agrega la capa al mapa
+        //    gMapControl.Overlays.Add(layerCirculo);
+        //    //Se actualiza el mapa
+        //    //gMapControl1.Refresh();
+        //    gMapControl.Zoom++;
+        //    gMapControl.Zoom--;
 
-            //Se limpia la lista para el proximo circulo
-            listaCirculo.Clear();            
-        }
+        //    //Se limpia la lista para el proximo circulo
+        //    listaCirculo.Clear();            
+        //}
 
-        private void btn_cricleBorrar_Click(object sender, EventArgs e)
-        {
-            layerCirculo.Polygons.Clear();
-        }
+        //private void btn_cricleBorrar_Click(object sender, EventArgs e)
+        //{
+        //    layerCirculo.Polygons.Clear();
+        //}
         #endregion
 
 
@@ -585,7 +572,7 @@ namespace Primera_aplicacion
             {
                 layerCirculo.Polygons.Clear();
                 //Se indica que el circulo esta borrado
-                rangoOnOff = true;
+                rangoOnOff = false;
             }
 
         }
@@ -643,7 +630,8 @@ namespace Primera_aplicacion
 
         private void btnBarra_Click(object sender, EventArgs e)
         {
-            progressBar1.PerformStep();
+            pbNivelBat.PerformStep();
+            lblBateria.Text = pbNivelBat.Value.ToString() + "%";
         }
         
 
