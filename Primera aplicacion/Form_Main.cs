@@ -48,13 +48,18 @@ namespace Primera_aplicacion
         int fila_seleccionada;
         double LatInicial = -34.706845093052735;
         double LngInicial = -58.23879250387637;
-        int cont = 1;
+        int cont = 1; //contador para las ubicaciones seleccionadas
+        int contAux = 1; //contador para las ubicaciones de auxilio
         public int rango; //rango aproximado en metros del alcance del dron
         bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
 
         //variables utilizadas para la creacion de poligonos
         List<PointLatLng> listaCirculo = new List<PointLatLng>();
         GMapOverlay layerCirculo = new GMapOverlay("Capa Circulo");
+
+        //capa para marcadores llamados desde el puerto serie
+        GMapOverlay serialOverlay = new GMapOverlay("Capa Serial");
+        int contRuta = 1;//contador para las ubicaciones de ruta
 
         //Capa para los marcadores creados desde el puerto serie
         //GMapOverlay overlaySerial;
@@ -73,6 +78,8 @@ namespace Primera_aplicacion
         };
 
         IFirebaseClient cliente;
+        //nombre del nodo de firebase
+        string nodo;
 
         public Form_Main()
         {
@@ -156,6 +163,8 @@ namespace Primera_aplicacion
             this.dataGridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             #endregion
         }
+
+        #region ManejoMarcadores
 
         private void Seleccionar_registro(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -272,6 +281,41 @@ namespace Primera_aplicacion
             txtLongitud.Text = dataGridView1.Rows[fila].Cells[2].Value.ToString();
         }
 
+        //dibujar marcadores en base a las ubicaciones recibidas desde el puerto serie
+        public void dibujarMarcador(double Latitud, double Longitud)
+        {
+            PointLatLng ubicacion = new PointLatLng();
+            ubicacion.Lat = Latitud;
+            ubicacion.Lng = Longitud;
+            //inicializar el marcador
+            marker = new GMarkerGoogle(ubicacion, GMarkerGoogleType.orange);
+            serialOverlay.Markers.Add(marker);//Añadir al marcador
+
+            string descripcion = "Ruta " + contRuta.ToString();
+            string lat = ubicacion.Lat.ToString();
+            string lng = ubicacion.Lng.ToString();
+            contRuta++;
+
+            //Añade la posicion seleccionada al dt
+            dt.Rows.Add(descripcion, lat, lng);
+
+            //Crear el marcador
+            marker.Position = ubicacion;
+
+            //agregar el tooltip
+            marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + lat + "\n Longitud: " + lng;
+
+            //Agregarle un Tag al marker
+            marker.Tag = descripcion;
+        }
+
+        //elimina a todos los marcadores de la capa de marcadores por puerto serie
+        public void borrarMarkSerial()
+        {
+            serialOverlay.Clear();
+        }
+        #endregion
+
         private void btnConexion_Click(object sender, EventArgs e)
         {
                 formCon = new Form_Conexion(this);
@@ -279,6 +323,8 @@ namespace Primera_aplicacion
                 formCon.Show(this);
         }
 
+
+        #region CirculoTest
         private void btn_circle_Click(object sender, EventArgs e)
         {
             double radio = 1;
@@ -356,6 +402,8 @@ namespace Primera_aplicacion
         {
             layerCirculo.Polygons.Clear();
         }
+        #endregion
+
 
         #region ComunicacionSerie
         public void coordenadasSerie(double dataLat, double dataLng)
@@ -409,23 +457,16 @@ namespace Primera_aplicacion
         }
         #endregion
 
+
         private void btnUbicacion_Click(object sender, EventArgs e)
         {
             //PointLatLng coord = new PointLatLng(Convert.ToDouble(txtLatitud.Text), Convert.ToDouble(txtLongitud.Text));
             string dato = txtLatitud.Text + ";" + txtLongitud.Text;
             formCon.enviarCoordenadas(dato);
         }
-
+        #region FuncionesSistema
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            //formCon.CerrarForm();
-            ////try
-            ////{
-            ////    formCon.Close();
-            //this.Close();
-            //}
-            //catch
-            //{ this.Close(); }
             formCon.Hide();
             Application.ExitThread();
         }
@@ -434,6 +475,7 @@ namespace Primera_aplicacion
         {
             this.WindowState = FormWindowState.Minimized;
         }
+        #endregion
 
 
         #region ConfigMov
@@ -462,14 +504,6 @@ namespace Primera_aplicacion
         }
         #endregion
     
-        /*No funciona*/
-        private void cambioPos(object sender, EventArgs e)
-        {
-            formCon = new Form_Conexion(this);
-
-            formCon.reajustarPos(this.Location);
-        }
-        /********************/
 
         private void btnRango_Click(object sender, EventArgs e)
         {
@@ -531,6 +565,51 @@ namespace Primera_aplicacion
                 rangoOnOff = true;
             }
 
+        }
+
+        private async void btnUbicaciones_Click(object sender, EventArgs e)
+        {
+            FirebaseResponse respuesta;
+            //esta funcion busca dentro de la base de datos por 10 ubicaciones de pedido de auxilio y las muestra en el mapa
+            //en caso de no haber 10 ubicaciones, sale de la funcion
+            for (int i = 1; i <= 10; i++)
+            {
+                try
+                {
+                    respuesta = await cliente.GetAsync(nodo + "/" + i.ToString());
+                    Datos datos = respuesta.ResultAs<Datos>();
+
+                    PointLatLng ubc = new PointLatLng();
+                    ubc.Lat = Convert.ToDouble(datos.Latitud);
+                    ubc.Lng = Convert.ToDouble(datos.Longitud);
+
+                    //inicializar el marcador
+                    marker = new GMarkerGoogle(ubc, GMarkerGoogleType.blue);
+                    markerOverlay.Markers.Add(marker);//Añadir al marcador
+
+                    string descripcion = "Auxilio " + contAux.ToString();
+                    string lat = ubc.Lat.ToString();
+                    string lng = ubc.Lng.ToString();
+                    contAux++;
+
+                    //Añade la posicion seleccionada al dt
+                    dt.Rows.Add(descripcion, lat, lng);
+
+                    //Crear el marcador
+                    marker.Position = ubc;
+
+                    //agregar el tooltip
+                    marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + lat + "\n Longitud: " + lng;
+
+                    //Agregarle un Tag al marker
+                    marker.Tag = descripcion;
+                    
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
         
 

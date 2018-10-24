@@ -1,7 +1,5 @@
 ﻿/*
- * 
- * Finalizar con las funciones de puerto serie para que manejen el protocolo final
- * Arreglar el movimiento del formulario
+ * Revisar en la funcion setup la cantidad de datos a recibir
  * 
  */
 
@@ -32,8 +30,6 @@ namespace Primera_aplicacion
         //delegado es del mismo tipo
         delegate string NuevoDato();
 
-        /* Esta variable la utilizo para la funcion void de recibir datos. Todas las demas funciones agarran el valor desde esta variable*/  //((INUTIL))
-        //string datosSerie = "";
 
         //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
         //lo reconozca como padre
@@ -49,7 +45,8 @@ namespace Primera_aplicacion
             this.Location = Form_Main.Location;
             this.Hide();
 
-            //this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
+            this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
+            this.lblConectar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -99,44 +96,28 @@ namespace Primera_aplicacion
             enviarCoordenadas(dato);
         }
 
-        //region comentada
-        #region SerialPort old
-        //private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        //{
-        //    Recibir();
-        //}
 
-        //private void Recibir()
-        //{
-        //    /*Obtiene un valor que indica si el llamador debe llamar a un método de invocación cuando realiza llamadas 
-        //     * a métodos del control porque el llamador se encuentra 
-        //     * en un subproceso distinto al del control donde se creó.
-        //     * true si Handle del control se creó en un subproceso distinto al subproceso que realiza la llamada 
-        //     * (lo que indica que debe realizar llamadas al control mediante un método de invocación); 
-        //     * en caso contrario, false. 
-        //    */
-        //    if (this.InvokeRequired)
-        //    {
-        //        NuevoDato ND = new NuevoDato(Recibir);
-        //        //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
-        //        this.Invoke(ND);
-        //    }
-        //    else
-        //    {
-        //        string datos = Convert.ToString(serialPort1.ReadExisting());
-        //        //Recibe los datos desde el puerto serie y los separa en latitud y longitud
-        //        string[] Dts = datos.Split(new Char[] { ';' }, 2);
-        //        datosLat = Convert.ToDouble(Dts[0]);
-        //        datosLng = Convert.ToDouble(Dts[1]);
-        //        txt_Recibir_Lat.Text = Dts[0];
-        //        txt_Recibir_Long.Text = Dts[1];
-
-        //        //envia las coordenadas al Form_Main para que las muestre en el mapa
-        //        Form_Main.coordenadasSerie(datosLat, datosLng);
-        //    }
-        //}
+        #region SerialPort
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            #region Ubicacion
+            /*
+             * Recibir los datos de la ubicacion y mostrarlos en el mapa
+             */
+            string datos;
+            datos = recibirDatos();
+            string[] Dts = datos.Split(new Char[] { ';' });
+            if (Dts.Length <= 2) 
+            {
+                double lat = Convert.ToDouble(Dts[0]);
+                double lng = Convert.ToDouble(Dts[1]);
+                Form_Main.dibujarMarcador(lat, lng);
+            }
+            #endregion
+        }
         #endregion  
 
+        #region ComSerie
         //Revisa el puerto serie y devuelve lo que encuentre como un string
         private string recibirDatos()
         {
@@ -154,25 +135,6 @@ namespace Primera_aplicacion
             }
             return datos;
         }
-        /* MISMA FUNCION QUE LA DE ARRIBA PERO VOID */ // ((por ahora inutil))
-        #region Copia
-        //private string recibirDatos()
-        //{
-        //    string datos = "";
-
-        //    //if (this.InvokeRequired)
-        //    //{
-        //    //    NuevoDato ND = new NuevoDato(recibirDatos); //no puedo llamar a un delegado para una funcion string, tengo que resolverlo
-        //    //    //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
-        //    //    this.Invoke(ND);
-        //    //}
-        //    //else
-        //    //{
-        //        datos = Convert.ToString(serialPort1.ReadExisting());
-        //    //}
-        //    return datos;
-        //}
-        #endregion
 
         //inicializa la parte de comunicacion de la app
         private void Setup()
@@ -215,15 +177,18 @@ namespace Primera_aplicacion
             //Si esta conectado, envia los datos de las textbox
             if (conectado) serialPort1.WriteLine(dato);
         }
+#endregion
 
         private void btnMenu_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
 
-        #region CopiadoDeInternet
+   #region MovForm
         const int WM_SYSCOMMAND = 0x112;
-        const int MOUSE_MOVE = 0xF012;
+            
+            
+            const int MOUSE_MOVE = 0xF012;
 
         // Declaraciones del API 
         [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
@@ -234,29 +199,18 @@ namespace Primera_aplicacion
         // 
         // función privada usada para mover el formulario actual 
 
-        //private void ConMoverForm()
-        //{
-        //    ReleaseCapture();
-        //    SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
-        //}
+        private void ConMoverForm()
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, WM_SYSCOMMAND, MOUSE_MOVE, 0);
+        }
 
-        //public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        //{
-        //    ConMoverForm();
-        //}
+        public void ConFormMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            ConMoverForm();
+        }
 
         #endregion
 
-        /*No funciona*/
-        public void reajustarPos(Point posicion)
-        {
-            if (this.Visible)
-            {
-                this.Location = posicion;
-                this.Hide();
-                this.Show();
-            }
-        }
-        /********************/
     }
 }

@@ -59,6 +59,7 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnConexion = new System.Windows.Forms.Button();
             this.btnRango = new System.Windows.Forms.Button();
+            this.btnUbicaciones = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -433,6 +434,19 @@
             this.btnRango.UseVisualStyleBackColor = false;
             this.btnRango.Click += new System.EventHandler(this.btnRango_Click);
             // 
+            // btnUbicaciones
+            // 
+            this.btnUbicaciones.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnUbicaciones.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUbicaciones.ForeColor = System.Drawing.Color.White;
+            this.btnUbicaciones.Location = new System.Drawing.Point(623, 409);
+            this.btnUbicaciones.Name = "btnUbicaciones";
+            this.btnUbicaciones.Size = new System.Drawing.Size(97, 34);
+            this.btnUbicaciones.TabIndex = 27;
+            this.btnUbicaciones.Text = "Afectados";
+            this.btnUbicaciones.UseVisualStyleBackColor = false;
+            this.btnUbicaciones.Click += new System.EventHandler(this.btnUbicaciones_Click);
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -442,6 +456,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(743, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.btnUbicaciones);
             this.Controls.Add(this.btnRango);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnUbicacion);
@@ -465,6 +480,7 @@
             this.Controls.Add(this.gMapControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.Name = "Form_Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -512,6 +528,7 @@
         private System.Windows.Forms.Button btnMin;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnRango;
+        private System.Windows.Forms.Button btnUbicaciones;
     }
 }
 

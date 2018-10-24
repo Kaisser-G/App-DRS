@@ -141,6 +141,10 @@
             this.lbl_Recibir.TabIndex = 8;
             this.lbl_Recibir.Text = "Coordenada recibida:";
             // 
+            // serialPort1
+            // 
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
