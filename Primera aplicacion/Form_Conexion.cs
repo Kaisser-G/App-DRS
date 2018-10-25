@@ -31,7 +31,6 @@ namespace Primera_aplicacion
         //delegado es del mismo tipo
         delegate string NuevoDato();
 
-
         //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
         //lo reconozca como padre
         public Form_Conexion(Form_Main nombre)
@@ -54,6 +53,11 @@ namespace Primera_aplicacion
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
+        {
+            Conectar();
+        }
+
+        private void Conectar()
         {
             if (!conectado)  //Si no esta conectado el puerto, realizar la conexión
             {
@@ -156,21 +160,29 @@ namespace Primera_aplicacion
              */
             string coordenadas;
 
-            //envia los datos de inicio
-            coordenadas = iniciarCom();
-            string[] Dts = coordenadas.Split(new Char[] { ';' }, 3); //separa la latitud, longitud y bateria
-            //setea las coordenadas iniciales
-            Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
-            //establecer nivel de bateria y rango
-            Form_Main.nivelBateria(Convert.ToInt16(Dts[2]));
+            try
+            {
+                //envia los datos de inicio
+                coordenadas = iniciarCom();
+                string[] Dts = coordenadas.Split(new Char[] { ';' }, 3); //separa la latitud, longitud y bateria
+                //setea las coordenadas iniciales
+                Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
+                //establecer nivel de bateria y rango
+                Form_Main.nivelBateria(Convert.ToInt16(Dts[2]));
+            }
+            catch
+            {
+                Form_Main.coordenadasIniciales(-31.337727, -64.257089);
+                Form_Main.nivelBateria(95);
+            }
         }
 
         //Envia el string de inicio, espera a recibir datos y los devuelve
         private string iniciarCom()
         {
             string data = "";
-            serialPort1.WriteLine(initCom);
-            while (serialPort1.BytesToRead == 0) { } //Espera a que haya datos que leer
+            serialPort1.Write(initCom);
+            //while (serialPort1.BytesToRead == 0) { } //Espera a que haya datos que leer
             data = recibirDatos();    //Funcion para recibir los datos del puerto serie
             serialPort1.DiscardInBuffer(); //Limpia el Buffer de entrada
             return data;
@@ -214,6 +226,12 @@ namespace Primera_aplicacion
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            init = false;
+            Conectar();
+        }
 
     }
 }

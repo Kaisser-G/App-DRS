@@ -51,8 +51,13 @@ namespace Primera_aplicacion
         //double LngInicial = -58.23879250387637;
 
         //Cordoba
+        ////Hotel
         double LatInicial = -31.4112677;
         double LngInicial = -64.1764772;
+        ////uni
+        double LatInicial2 = -31.337727;
+        double LngInicial2 = -64.257089;
+
         int cont = 1; //contador para las ubicaciones seleccionadas
         int contAux = 1; //contador para las ubicaciones de auxilio
         public int rango = 300; //rango aproximado en metros del alcance del dron
@@ -644,6 +649,14 @@ namespace Primera_aplicacion
             pbNivelBat.Value = nivel;
 
             rango = (rangMax * nivel) / 100;
+        }
+
+        private void Form_Main_Minimizado()
+        {
+            if(this.WindowState == FormWindowState.Minimized)
+            {
+                formCon.WindowState = FormWindowState.Minimized;
+            }
         }
     }
 }
