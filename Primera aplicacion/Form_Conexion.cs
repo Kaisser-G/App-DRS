@@ -21,9 +21,10 @@ namespace Primera_aplicacion
     public partial class Form_Conexion : Form
     {
         Boolean conectado = false;
+        Boolean init = false; //indica si la app esta inicializada
 
         public double datosLat = 0, datosLng = 0;
-        string initCom = "in"; //Caracteres enviados para hacer saber que la app esta funcionando 
+        string initCom = "i"; //Caracteres enviados para hacer saber que la app esta funcionando 
         Form_Main Form_Main;
 
         // Declara el delegado que presentara lo recibido en el formulario. Debido a que la funcion en la que se emplea es del tipo string, el 
@@ -70,6 +71,12 @@ namespace Primera_aplicacion
 
                     lblConectar.Text = "Conectado";
                     lblConectar.BackColor = Color.Green;
+
+                    if(!init)
+                    {
+                        Setup();
+                        init = true;
+                    }
                 }
                 catch (Exception ex)   // Código de error
                 {
@@ -150,13 +157,12 @@ namespace Primera_aplicacion
             string coordenadas;
 
             //envia los datos de inicio
-            iniciarCom();
-            //espera a que lleguen datos por el puerto serie
-            while (serialPort1.BytesToRead == 0) { }
-            coordenadas = recibirDatos();  //lee el puerto serie
-            string[] Dts = coordenadas.Split(new Char[] { ';' }, 2); //separa la lat de la longitud
+            coordenadas = iniciarCom();
+            string[] Dts = coordenadas.Split(new Char[] { ';' }, 3); //separa la latitud, longitud y bateria
             //setea las coordenadas iniciales
             Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
+            //establecer nivel de bateria y rango
+            Form_Main.nivelBateria(Convert.ToInt16(Dts[2]));
         }
 
         //Envia el string de inicio, espera a recibir datos y los devuelve

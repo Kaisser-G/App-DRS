@@ -51,7 +51,6 @@
             this.btnRango = new System.Windows.Forms.Button();
             this.btnUbicaciones = new System.Windows.Forms.Button();
             this.pbNivelBat = new System.Windows.Forms.ProgressBar();
-            this.btnBarra = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblBateria = new System.Windows.Forms.Label();
             this.lblNivel = new System.Windows.Forms.Label();
@@ -333,7 +332,7 @@
             this.btnUbicaciones.Name = "btnUbicaciones";
             this.btnUbicaciones.Size = new System.Drawing.Size(97, 34);
             this.btnUbicaciones.TabIndex = 27;
-            this.btnUbicaciones.Text = "Afectados";
+            this.btnUbicaciones.Text = "Cargar";
             this.btnUbicaciones.UseVisualStyleBackColor = false;
             this.btnUbicaciones.Click += new System.EventHandler(this.btnUbicaciones_Click);
             // 
@@ -346,19 +345,6 @@
             this.pbNivelBat.Size = new System.Drawing.Size(97, 23);
             this.pbNivelBat.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pbNivelBat.TabIndex = 29;
-            // 
-            // btnBarra
-            // 
-            this.btnBarra.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnBarra.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBarra.ForeColor = System.Drawing.Color.White;
-            this.btnBarra.Location = new System.Drawing.Point(625, 199);
-            this.btnBarra.Name = "btnBarra";
-            this.btnBarra.Size = new System.Drawing.Size(97, 34);
-            this.btnBarra.TabIndex = 30;
-            this.btnBarra.Text = "Step";
-            this.btnBarra.UseVisualStyleBackColor = false;
-            this.btnBarra.Click += new System.EventHandler(this.btnBarra_Click);
             // 
             // groupBox1
             // 
@@ -448,7 +434,6 @@
             this.ControlBox = false;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnBarra);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.btnUbicacion);
             this.Controls.Add(this.dataGridView1);
@@ -505,7 +490,6 @@
         private System.Windows.Forms.Button btnRango;
         private System.Windows.Forms.Button btnUbicaciones;
         private System.Windows.Forms.ProgressBar pbNivelBat;
-        private System.Windows.Forms.Button btnBarra;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblBateria;
         private System.Windows.Forms.Label lblNivel;

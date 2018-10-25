@@ -57,7 +57,7 @@
             // 
             this.btnConectar.BackColor = System.Drawing.Color.Crimson;
             this.btnConectar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnConectar.FlatAppearance.BorderSize = 0;
+            this.btnConectar.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnConectar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConectar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConectar.Location = new System.Drawing.Point(45, 360);

@@ -72,8 +72,7 @@ namespace Primera_aplicacion
         //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
         Form_Conexion formCon;
         
-        //contador para la descripcion de los datos recibidos por puerto serie
-        //int contData = 1;
+        int rangMax; //alcance maximo del drone en metros con bateria llena
 
         //Inicializar la interfaz para la base de datos
         IFirebaseConfig config = new FirebaseConfig
@@ -634,6 +633,17 @@ namespace Primera_aplicacion
             lblBateria.Text = pbNivelBat.Value.ToString() + "%";
         }
         
+        //recibe el dato del nivel de bateria, lo señala y calcula el rango
+        public void nivelBateria(int nivel)
+        {
+            //limita el rango maximo y minimo
+            if (nivel > 100) { nivel = 100; }
+            if (nivel < 0) { nivel = 0; }
 
+            //establece el nivel de bateria
+            pbNivelBat.Value = nivel;
+
+            rango = (rangMax * nivel) / 100;
+        }
     }
 }
