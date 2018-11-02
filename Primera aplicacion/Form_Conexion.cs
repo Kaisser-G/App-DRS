@@ -37,7 +37,6 @@ namespace Primera_aplicacion
         {
             InitializeComponent();
             Form_Main = nombre;
-       //     this.MdiParent = Form_Main;
         }
 
         private void Form_Conexion_Load(object sender, EventArgs e)
@@ -46,10 +45,12 @@ namespace Primera_aplicacion
             this.Location = Form_Main.Location;
             this.Hide();
 
+            /*
             //Asigna la funcion de movimiento para las acciones de hacer click sobre partes del formulario
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
             this.panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
             this.lblConectar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConFormMouseMove);
+             */
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -182,7 +183,6 @@ namespace Primera_aplicacion
         {
             string data = "";
             serialPort1.Write(initCom);
-            //while (serialPort1.BytesToRead == 0) { } //Espera a que haya datos que leer
             data = recibirDatos();    //Funcion para recibir los datos del puerto serie
             serialPort1.DiscardInBuffer(); //Limpia el Buffer de entrada
             return data;
@@ -201,6 +201,7 @@ namespace Primera_aplicacion
             this.Hide();
         }
 
+/*
    #region MovForm
         const int WM_SYSCOMMAND = 0x112;
         const int MOUSE_MOVE = 0xF012;
@@ -226,11 +227,34 @@ namespace Primera_aplicacion
         }
 
         #endregion
+ */
 
         private void button1_Click(object sender, EventArgs e)
         {
+            conectado = false;
             init = false;
             Conectar();
+        }
+
+        private void boxCom_DropDown(object sender, EventArgs e)
+        {
+            bool añadido = false;
+
+            boxCom.Items.Clear();
+
+            string[] puertos = new string[50];
+            puertos = SerialPort.GetPortNames();
+            
+            foreach(string puerto in puertos)
+            {
+                if (puerto == null)
+                    break;
+                boxCom.Items.Add(puerto);
+                añadido = true;
+            }
+
+            if (!añadido)
+                boxCom.Items.Add("No hay puertos disponibles");
         }
 
     }

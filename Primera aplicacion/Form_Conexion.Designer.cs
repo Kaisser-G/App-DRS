@@ -100,18 +100,13 @@
             this.boxCom.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boxCom.FormattingEnabled = true;
             this.boxCom.Items.AddRange(new object[] {
-            "COM1",
-            "COM2",
-            "COM3",
-            "COM4",
-            "COM5",
-            "COM6",
-            "COM7"});
+            "No hay puertos conectados"});
             this.boxCom.Location = new System.Drawing.Point(60, 316);
             this.boxCom.Name = "boxCom";
             this.boxCom.Size = new System.Drawing.Size(120, 23);
             this.boxCom.TabIndex = 3;
-            this.boxCom.Text = "COM1";
+            this.boxCom.Text = "COM";
+            this.boxCom.DropDown += new System.EventHandler(this.boxCom_DropDown);
             // 
             // txtEnviarLat
             // 
