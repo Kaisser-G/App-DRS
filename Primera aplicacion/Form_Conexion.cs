@@ -117,18 +117,24 @@ namespace Primera_aplicacion
         {
             try
             {
-                #region Ubicacion
-                /*
+            #region Ubicacion
+            /*
              * Recibir los datos de la ubicacion y mostrarlos en el mapa
              */
                 string datos;
                 datos = recibirDatos();
+                //Separa los datos recibidos
                 string[] Dts = datos.Split(new Char[] { ';' });
-                if (Dts.Length <= 2)
+                
+                if (Dts.Length <= 2) //Si el dato tiene dos partes, es una ubicacion
                 {
+                    //adapta los datos
                     double lat = Convert.ToDouble(Dts[0]);
                     double lng = Convert.ToDouble(Dts[1]);
+                    //Dibuja un marcador en el punto
                     Form_Main.dibujarMarcador(lat, lng);
+                    //Actualiza el recorrido
+                    Form_Main.dibujarRecorrido(lat, lng);
                 }
             }
             catch{}

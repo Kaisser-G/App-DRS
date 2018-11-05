@@ -64,15 +64,21 @@ namespace Primera_aplicacion
         bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
 
         //variables utilizadas para la creacion de poligonos
+            //Circulo
         List<PointLatLng> listaCirculo = new List<PointLatLng>();
         GMapOverlay layerCirculo = new GMapOverlay("Capa Circulo");
+            //Recorrido
+        List<PointLatLng> listaRecorrido = new List<PointLatLng>();
+        GMapOverlay layerRecorrido = new GMapOverlay("Capa Recorrido");
+/*
+ * -Agregar que cuando llegue la ubicacion inicial la agregue como primer punto de la lista    LISTO
+ * -Crear la funcion que vaya agregando los puntos que va mandando el dron y a la vez dibuje el recorrido LISTO
+ * -Adaptar la funcion de recepcion de datos para que si llega una coordenada, llame a la funcion de dibujar recorrido
+ */
 
         //capa para marcadores llamados desde el puerto serie
         GMapOverlay serialOverlay = new GMapOverlay("Capa Serial");
-        int contRuta = 1;//contador para las ubicaciones de ruta
-
-        //Capa para los marcadores creados desde el puerto serie
-        //GMapOverlay overlaySerial;
+        int contRuta = 1;//contador para las ubicaciones de 
 
         //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
         Form_Conexion formCon;
@@ -451,6 +457,10 @@ namespace Primera_aplicacion
             //añadir el overlay al mapa principal
             gMapControl.Overlays.Add(markerOverlay);
    
+            //Limpiar la lista de recorrido para asegurarse de que la coord inical sea el primer miembro
+            listaRecorrido.Clear();
+            //Agregar el punto inicial a la lista de recorrido
+            listaRecorrido.Add(new PointLatLng(lat, lng));
         }
         #endregion
 
@@ -661,6 +671,32 @@ namespace Primera_aplicacion
             {
                 formCon.WindowState = FormWindowState.Minimized;
             }
+        }
+
+        //Funcion que recibe una coordenada, la agrega a la lista del recorrido y lo dibuja
+        public void dibujarRecorrido(double lat, double lng)
+        {
+            PointLatLng punto = new PointLatLng();
+            punto.Lat = lat;
+            punto.Lng = lng;
+
+            //////////////////Polilinea
+            //Se agrega el punto recibido a la lista de puntos
+            listaRecorrido.Add(punto);
+
+            //Se crea el poligono Circulo
+            GMapPolygon recorrido = new GMapPolygon(listaCirculo, "Circulo");
+
+            //Se agrega el recorrido a la capa
+            layerRecorrido.Polygons.Add(recorrido);
+
+            //Se agrega la capa al mapa
+            gMapControl.Overlays.Add(layerRecorrido);
+
+            //Se actualiza el mapa
+            gMapControl.Zoom++;
+            gMapControl.Zoom--;
+
         }
     }
 }
