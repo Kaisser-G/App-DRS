@@ -47,16 +47,16 @@ namespace Primera_aplicacion
 
         int fila_seleccionada;
         //Bs As
-        //double LatInicial = -34.706845093052735;
-        //double LngInicial = -58.23879250387637;
+        double LatInicial = -34.706845093052735;
+        double LngInicial = -58.23879250387637;
 
         //Cordoba
         ////Hotel
-        double LatInicial = -31.4112677;
-        double LngInicial = -64.1764772;
-        ////uni
-        double LatInicial2 = -31.337727;
-        double LngInicial2 = -64.257089;
+        //double LatInicial = -31.4112677;
+        //double LngInicial = -64.1764772;
+        //////uni
+        //double LatInicial2 = -31.337727;
+        //double LngInicial2 = -64.257089;
 
         int cont = 1; //contador para las ubicaciones seleccionadas
         int contAux = 1; //contador para las ubicaciones de auxilio
@@ -255,6 +255,7 @@ namespace Primera_aplicacion
 
         private void gMapControl1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
+            //En esta seccion tuve que agregar la linea que le pasa el dato de la fila a la variable fila_seleccionada
             double lat = item.Position.Lat;
             double lng = item.Position.Lng;
 
@@ -266,6 +267,8 @@ namespace Primera_aplicacion
             //Deselecciona todas las filas del dt primero y luego selecciona la fila actual
             for (int i = 0; i != dataGridView1.RowCount; i++) dataGridView1.Rows[i].Selected = false;
             dataGridView1.Rows[fila].Selected = true;
+            //IMPORTANTE
+            fila_seleccionada = fila;
 
             //Cuando se hace click sobre un marcador se muestran sus datos en los label
             txtDescripcion.Text = item.Tag.ToString();
@@ -647,6 +650,7 @@ namespace Primera_aplicacion
 
             //establece el nivel de bateria
             pbNivelBat.Value = nivel;
+            lblBateria.Text = nivel + "%";
 
             rango = (rangMax * nivel) / 100;
         }

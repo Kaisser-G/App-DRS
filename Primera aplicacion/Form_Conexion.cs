@@ -115,19 +115,23 @@ namespace Primera_aplicacion
         #region SerialPort
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            #region Ubicacion
-            /*
+            try
+            {
+                #region Ubicacion
+                /*
              * Recibir los datos de la ubicacion y mostrarlos en el mapa
              */
-            string datos;
-            datos = recibirDatos();
-            string[] Dts = datos.Split(new Char[] { ';' });
-            if (Dts.Length <= 2) 
-            {
-                double lat = Convert.ToDouble(Dts[0]);
-                double lng = Convert.ToDouble(Dts[1]);
-                Form_Main.dibujarMarcador(lat, lng);
+                string datos;
+                datos = recibirDatos();
+                string[] Dts = datos.Split(new Char[] { ';' });
+                if (Dts.Length <= 2)
+                {
+                    double lat = Convert.ToDouble(Dts[0]);
+                    double lng = Convert.ToDouble(Dts[1]);
+                    Form_Main.dibujarMarcador(lat, lng);
+                }
             }
+            catch{}
             #endregion
         }
         #endregion  
@@ -173,8 +177,9 @@ namespace Primera_aplicacion
             }
             catch
             {
-                Form_Main.coordenadasIniciales(-31.337727, -64.257089);
+                Form_Main.coordenadasIniciales(-34.706845393052735, -58.23879250987637);
                 Form_Main.nivelBateria(95);
+                
             }
         }
 
