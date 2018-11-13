@@ -49,18 +49,17 @@
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnConexion = new System.Windows.Forms.Button();
             this.btnRango = new System.Windows.Forms.Button();
-            this.btnUbicaciones = new System.Windows.Forms.Button();
             this.pbNivelBat = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblBateria = new System.Windows.Forms.Label();
             this.lblNivel = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // gMapControl
@@ -244,7 +243,7 @@
             this.panel2.Controls.Add(this.label5);
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(743, 40);
+            this.panel2.Size = new System.Drawing.Size(824, 40);
             this.panel2.TabIndex = 24;
             // 
             // button1
@@ -255,7 +254,7 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Image = global::Primera_aplicacion.Properties.Resources.DRS_Logo_v2;
-            this.button1.Location = new System.Drawing.Point(355, 5);
+            this.button1.Location = new System.Drawing.Point(430, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 30);
             this.button1.TabIndex = 15;
@@ -270,7 +269,7 @@
             this.btnMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMin.ForeColor = System.Drawing.Color.White;
-            this.btnMin.Location = new System.Drawing.Point(674, 5);
+            this.btnMin.Location = new System.Drawing.Point(754, 4);
             this.btnMin.Name = "btnMin";
             this.btnMin.Size = new System.Drawing.Size(30, 30);
             this.btnMin.TabIndex = 14;
@@ -287,7 +286,7 @@
             this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCerrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(710, 5);
+            this.btnCerrar.Location = new System.Drawing.Point(790, 4);
             this.btnCerrar.Name = "btnCerrar";
             this.btnCerrar.Size = new System.Drawing.Size(30, 30);
             this.btnCerrar.TabIndex = 13;
@@ -323,19 +322,6 @@
             this.btnRango.UseVisualStyleBackColor = false;
             this.btnRango.Click += new System.EventHandler(this.btnRango_Click);
             // 
-            // btnUbicaciones
-            // 
-            this.btnUbicaciones.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnUbicaciones.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUbicaciones.ForeColor = System.Drawing.Color.White;
-            this.btnUbicaciones.Location = new System.Drawing.Point(22, 91);
-            this.btnUbicaciones.Name = "btnUbicaciones";
-            this.btnUbicaciones.Size = new System.Drawing.Size(97, 34);
-            this.btnUbicaciones.TabIndex = 27;
-            this.btnUbicaciones.Text = "Cargar";
-            this.btnUbicaciones.UseVisualStyleBackColor = false;
-            this.btnUbicaciones.Click += new System.EventHandler(this.btnUbicaciones_Click);
-            // 
             // pbNivelBat
             // 
             this.pbNivelBat.BackColor = System.Drawing.Color.Firebrick;
@@ -354,7 +340,7 @@
             this.groupBox1.Controls.Add(this.btnRango);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(603, 41);
+            this.groupBox1.Location = new System.Drawing.Point(644, 46);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(140, 145);
             this.groupBox1.TabIndex = 31;
@@ -385,43 +371,25 @@
             this.lblNivel.TabIndex = 31;
             this.lblNivel.Text = "Nivel:";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label6.Location = new System.Drawing.Point(6, 34);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(123, 19);
-            this.label6.TabIndex = 32;
-            this.label6.Text = "Mostrar ubicacion";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label7.Location = new System.Drawing.Point(6, 53);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(113, 19);
-            this.label7.TabIndex = 33;
-            this.label7.Text = "de los afectados:";
-            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.btnUbicaciones);
+            this.groupBox2.Controls.Add(this.pictureBox1);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(603, 258);
+            this.groupBox2.Location = new System.Drawing.Point(603, 204);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 180);
+            this.groupBox2.Size = new System.Drawing.Size(217, 234);
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Aplicacion";
+            this.groupBox2.Text = "Aptitud";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
+            this.pictureBox1.TabIndex = 35;
+            this.pictureBox1.TabStop = false;
             // 
             // Form_Main
             // 
@@ -430,7 +398,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.DarkCyan;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(743, 450);
+            this.ClientSize = new System.Drawing.Size(824, 450);
             this.ControlBox = false;
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -461,7 +429,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,14 +456,12 @@
         private System.Windows.Forms.Button btnMin;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnRango;
-        private System.Windows.Forms.Button btnUbicaciones;
         private System.Windows.Forms.ProgressBar pbNivelBat;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblBateria;
         private System.Windows.Forms.Label lblNivel;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

@@ -1,21 +1,4 @@
-﻿/* 
- * 1/10
- * Ya esta todo lo basico funcionando, ahora me faltan detalles y cosas extra.
- * Tengo que hacer el rango de la bateria. Primero calcular a cuanta distancia equivale una unidad del circulo y despues
- * implementarlo bien en el codigo.
- * Cosas a considerar son el protocolo y un trazador de ruta (algo que quede fachero), ademas de obtener una posicion
- * inicial flexible, pidiendole los datos al dron.
- * 
- * 4/10
- * Se habia creado una interfaz para la comunicacion entre los dos Forms (compartir las coordenadas del puerto serie) pero eso
- * no era necesario. La solucion final fue declarar al Form_Conexion como hijo y hacer que este "reconozca" al Form_Main como padre.
- * De esta forma se pueden compartir variables y funciones entre los dos Form.
- * 
- * 8/10
- * Se comenzo a definir la comunicacion entre la pc y el arduino y se empezo a crear los metodos de comunicacion en el
- * programa.
-*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,42 +9,47 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-using GMap.NET;
+using System.Drawing.Drawing2D; //Espacio de nombre utilizado para funciones graficas adicionales
+
+using GMap.NET; //Espacios de nombre utilizados para el control de la API de Google Maps
 
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 
-using FireSharp.Config;
-using FireSharp.Interfaces;
-using FireSharp.Response;
-
-
 namespace Primera_aplicacion
 {
     public partial class Form_Main : Form
     {
+        //Declaracion de objetos para el manejo de la API
         GMarkerGoogle marker;
         GMapOverlay markerOverlay;
         DataTable dt;
 
+        //Confguracion de Bitmap para el horizonte
+        Bitmap horizonte;
+        Graphics grafico;
+
+        //Configuracion para el dibujo
+        SolidBrush pincelBlanco, pincelRojo, pincelNegro, pincelGris, pincelTierra, pincelCielo;
+        Pen lapizBlanco, lapizRojo, lapizNegro, lapizGris, lapizTierra, lapizCielo;
+        Font Arial;
+
+        //Creo un objeto de la clase para guardar los datos de aptitud del drone
+        Aptitud datos = new Aptitud();
+
+        //Fila seleccionada en el dataTable
         int fila_seleccionada;
-        //Bs As
+
+        //Inicializacion de los datos de ubicacion inicial
         double LatInicial = -34.706845093052735;
         double LngInicial = -58.23879250387637;
-
-        //Cordoba
-        ////Hotel
-        //double LatInicial = -31.4112677;
-        //double LngInicial = -64.1764772;
-        //////uni
-        //double LatInicial2 = -31.337727;
-        //double LngInicial2 = -64.257089;
 
         int cont = 1; //contador para las ubicaciones seleccionadas
         int contAux = 1; //contador para las ubicaciones de auxilio
         public int rango = 300; //rango aproximado en metros del alcance del dron
         bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
+        int rangMax = 2400; //alcance maximo estimado del drone en metros con bateria llena
 
         //variables utilizadas para la creacion de poligonos
             //Circulo
@@ -82,19 +70,6 @@ namespace Primera_aplicacion
 
         //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
         Form_Conexion formCon;
-        
-        int rangMax; //alcance maximo del drone en metros con bateria llena
-
-        //Inicializar la interfaz para la base de datos
-        IFirebaseConfig config = new FirebaseConfig
-        {
-            AuthSecret = "xzlRQPYVHj3VuHwCLW64vhByhUSStz7CjWxschaU",
-            BasePath = "https://drs-drone.firebaseio.com/"
-        };
-
-        IFirebaseClient cliente;
-        //nombre del nodo de firebase
-        string nodo;
 
         public Form_Main()
         {
@@ -103,8 +78,6 @@ namespace Primera_aplicacion
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Instanciar al cliente
-            cliente = new FireSharp.FirebaseClient(config);
 
             //inicializacion del mapa
             gMapControl.DragButton = MouseButtons.Left;
@@ -144,7 +117,17 @@ namespace Primera_aplicacion
             dataGridView1.Columns[2].Visible = false;
             dataGridView1.ReadOnly = true;
 
+            //Dibujo
+            datos.Pitch = 50;
+            datos.Roll = 0;
+            datos.Yaw = 50;
+            Dibujar(datos.Pitch, datos.Roll, datos.Yaw);
+
             #region MovimientoForm
+            /*
+             * Llamo a funciones de EventHandler cada vez que el mouse se mueve sobre alguno de los elementos de la
+             * interfaz para poder moverla de manera manual, ya que retire los bordes en el diseño
+             */
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
             this.button1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormMouseMove);
@@ -241,8 +224,9 @@ namespace Primera_aplicacion
                 //Agregarle un Tag al marker
                 marker.Tag = descripcion;
             }
+            //Devuelve el error al usuario en caso de realizar una accion no permitida
             catch(Exception ex)
-            { MessageBox.Show(ex.Message, "Error"); }
+            { MessageBox.Show(ex.Message, "Error"); } 
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -325,88 +309,6 @@ namespace Primera_aplicacion
                 formCon.Show(this);
         }
 
-
-        #region CirculoTest
-        //private void btn_circle_Click(object sender, EventArgs e)
-        //{
-        //    double radio = 1;
-        //    double divisor = 1000;
-        //    int distancia; //es la distancia en metros que se quiere que sea el radio del circulo
-
-        //    if (txtDist.Text != "")
-        //    {
-        //        distancia = Convert.ToInt16(txtDist.Text);
-        //        /*
-        //         * Haciendo calculos para convertir los valores de coordenadas a distancia en metros la unidad
-        //         * de radio del circulo es de aproximadamente 89m
-        //         */
-        //        radio = distancia / 89.0;
-        //    }
-        //    else
-        //    {
-        //        //Si no hay nada en el txt de distancia entonces revisa el resto
-        //        if (txtRadio.Text != "")
-        //        {
-        //                //Obtener el valor en el textbox
-        //                radio = Convert.ToDouble(txtRadio.Text);
-        //        }
-        //        else
-        //        {
-        //            //Si no se ingreso nada en el textbox, se utiliza la seleccion de los checkbox
-        //            divisor = 100;
-        //            if (cbx_corto.Checked == true) { divisor = 1000; }
-        //            else if (cbx_medio.Checked == true) { divisor = 500; }
-        //            else if (cbx_largo.Checked == true) { divisor = 100; }
-        //            else radio = 1;
-        //        }
-        //    }
-
-        //    //Cant de puntos para dibujar el circulo
-        //    int puntos = 360;
-
-        //    //Angulo entre dos puntos, en radianes
-        //    double angSegmentos = 2 * Math.PI / puntos;
-
-        //    PointLatLng centro = new PointLatLng();
-        //    centro.Lat = LatInicial;
-        //    centro.Lng = LngInicial;
-
-        //    double ang;
-
-        //    for (int i = 1; i <= puntos ; i++)
-        //    {
-        //        //Se crean los puntos variando el angulo y se los agrega a la lista
-        //        ang = angSegmentos * i;
-        //        double a = centro.Lat + Math.Sin(ang) * radio  / divisor;
-        //        double b = centro.Lng + Math.Cos(ang) * radio / divisor;
-
-        //        PointLatLng marca = new PointLatLng(a, b);
-        //        listaCirculo.Add(marca);
-
-        //    }
-
-        //    //Se crea el poligono Circulo
-        //    GMapPolygon circulo = new GMapPolygon(listaCirculo, "Circulo");
-        //    //Se agrega el circulo a la capa
-        //    layerCirculo.Polygons.Add(circulo);
-        //    //Se agrega la capa al mapa
-        //    gMapControl.Overlays.Add(layerCirculo);
-        //    //Se actualiza el mapa
-        //    //gMapControl1.Refresh();
-        //    gMapControl.Zoom++;
-        //    gMapControl.Zoom--;
-
-        //    //Se limpia la lista para el proximo circulo
-        //    listaCirculo.Clear();            
-        //}
-
-        //private void btn_cricleBorrar_Click(object sender, EventArgs e)
-        //{
-        //    layerCirculo.Polygons.Clear();
-        //}
-        #endregion
-
-
         #region ComunicacionSerie
         public void coordenadasSerie(double dataLat, double dataLng)
         {
@@ -484,11 +386,12 @@ namespace Primera_aplicacion
 
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            if(formCon!=null){
-                formCon.Hide();
-                Application.ExitThread();
+            //Si existe el Formulario de Conexion
+            if(formCon != null){
+                formCon.Hide();             
+                Application.ExitThread();   //Lo esconde y termina la aplicacion
             }
-            else { Application.ExitThread(); }
+            else { Application.ExitThread(); } //En caso contrario termina la aplicacion directamente
         }
 
         private void btnMin_Click(object sender, EventArgs e)
@@ -507,7 +410,7 @@ namespace Primera_aplicacion
 
 
         #region ConfigMov
-        const int WM_SYSCOMMAND = 0x112;
+        const int WM_SYSCOMMAND = 0x112;    //Comandos del sistema en hexadecimal
         const int MOUSE_MOVE = 0xF012;
 
         // Declaraciones del API 
@@ -594,61 +497,11 @@ namespace Primera_aplicacion
 
         }
 
-        private async void btnUbicaciones_Click(object sender, EventArgs e)
-        {
-            FirebaseResponse respuesta;
-            //esta funcion busca dentro de la base de datos por 10 ubicaciones de pedido de auxilio y las muestra en el mapa
-            //en caso de no haber 10 ubicaciones, sale de la funcion
-            for (int i = 1; i <= 10; i++)
-            {
-                try
-                {
-                    respuesta = await cliente.GetAsync(nodo + "/" + i.ToString());
-                    Datos datos = respuesta.ResultAs<Datos>();
-
-                    PointLatLng ubc = new PointLatLng();
-                    ubc.Lat = Convert.ToDouble(datos.Latitud);
-                    ubc.Lng = Convert.ToDouble(datos.Longitud);
-
-                    //inicializar el marcador
-                    marker = new GMarkerGoogle(ubc, GMarkerGoogleType.blue);
-                    markerOverlay.Markers.Add(marker);//Añadir al marcador
-
-                    string descripcion = "Auxilio " + contAux.ToString();
-                    string lat = ubc.Lat.ToString();
-                    string lng = ubc.Lng.ToString();
-                    contAux++;
-
-                    //Añade la posicion seleccionada al dt
-                    dt.Rows.Add(descripcion, lat, lng);
-
-                    //Crear el marcador
-                    marker.Position = ubc;
-
-                    //agregar el tooltip
-                    marker.ToolTipText = "Ubicacion: " + descripcion + "\n Latitud: " + lat + "\n Longitud: " + lng;
-
-                    //Agregarle un Tag al marker
-                    marker.Tag = descripcion;
-                    
-                }
-                catch
-                {
-                    break;
-                }
-            }
-        }
-
+        //Actualiza la posicion del Form_Conexion cada vez que se mueva el formulario principal
         private void Form_Main_LocationChanged(object sender, EventArgs e)
         {
             if(formCon != null)
             formCon.Location = this.Location;
-        }
-
-        private void btnBarra_Click(object sender, EventArgs e)
-        {
-            pbNivelBat.PerformStep();
-            lblBateria.Text = pbNivelBat.Value.ToString() + "%";
         }
         
         //recibe el dato del nivel de bateria, lo señala y calcula el rango
@@ -698,5 +551,322 @@ namespace Primera_aplicacion
             gMapControl.Zoom--;
 
         }
+
+        #region Dibujo
+        private void Dibujar(int pitch, int roll, int yaw)
+        {
+            #region Config
+            /**** Configuracion ******/
+            //Reescalado
+            int scl;
+            if (pictureBox1.Width <= pictureBox1.Height) { scl = pictureBox1.Width; }
+            else { scl = pictureBox1.Height; }
+
+            //Valor de pitch
+            int Vpitch = 0;  //el valor de pitch tiene su 0 en el centro del instrumento y toma valores pos hacia abajo
+            //Valor del Yaw
+            int VYaw = 0;
+            //Angulo de roll
+            double ARoll = 0; //se lo inicializa a 0
+
+            //centro de la pantalla
+            Point centro = new Point(pictureBox1.Width / 2, pictureBox1.Height / 2); //punto central
+            //Puntos del rectangulo de gnd
+            Point[] gnd = new Point[4];
+            //Puntos lineas largas
+            Point a = new Point(); //primer punto de la linea
+            Point b = new Point(); // segundo
+            Point t = new Point(); //punto del texto
+            /* 
+             * Se utilizan dos puntos en relacion a las lineas de pitch, centLineas se utilizara como el punto central
+             * sobre el cual rotara cada linea (se varia en el for) y PPitch es el punto central de todas las lineas de pitch
+             * (se podria decir que es el punto central de la linea 0) que se vera afectado por la variacion de pitch y yaw
+             */
+            //Punto central de cada linea
+            Point centLineas = new Point(centro.X, centro.Y); //Lo inicializo en el mismo lugar que el centro de la pantalla
+            //Punto central
+            Point PCentral = new Point(centro.X, centro.Y);
+            //Colores para el dibujo
+            Color cielo = Color.SteelBlue;
+            Color tierra = Color.Chocolate;
+
+            //Rectangulo de gnd
+            int adjV = 90; //Angulo de ajuste para lineas verticales
+            int lngGnd = scl * 300;
+
+            //Lineas
+            int lngLinL = scl / 5; //Longitud de las lineas largas
+            int lngLinC = scl / 8; //Longitud de las lineas cortas
+            int sepLin = scl / 4; //Factor de separacion de las lineas
+            //Grosor de las lineas
+            float grosor = scl * 3 / 300; //El 300 se usa porque el bitmap original se hizo con un tamaño de 300px
+
+            //Fuente
+            int fuente = scl / 16;
+            if (fuente < 1) { fuente = 1; } //Evita que la fuente sea menor a 1
+
+            //Inicializacion
+            horizonte = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            grafico = Graphics.FromImage(horizonte);
+            //Brushes
+            pincelBlanco = new SolidBrush(Color.White);
+            pincelRojo = new SolidBrush(Color.Red);
+            pincelNegro = new SolidBrush(Color.Black);
+            pincelGris = new SolidBrush(Color.LightGray);
+            pincelTierra = new SolidBrush(tierra);
+            pincelCielo = new SolidBrush(cielo); //Teal, Aqua
+            //Lapices
+            lapizBlanco = new Pen(pincelBlanco, grosor);
+            lapizRojo = new Pen(pincelRojo, grosor);
+            lapizNegro = new Pen(pincelNegro, grosor);
+            lapizGris = new Pen(pincelGris, grosor);
+            lapizTierra = new Pen(pincelTierra, grosor);
+            lapizCielo = new Pen(pincelCielo, grosor);
+
+            Arial = new Font("Arial", fuente);
+            #endregion
+
+            /*      VALORES A MANEJAR 
+             *  -pitch -> Movimiento hacia arriba y abajo del gnd
+             *  -yaw   -> creo que no lo necesito
+             *  -roll  -> Giro del gnd
+             */
+
+            /******** Comandos *****************/
+
+            Vpitch = pitch - 50; //conversion adaptada al VScroll
+
+            VYaw = yaw - 50; //conversion adaptada al VScroll
+
+            ARoll = roll * 360 / 100;
+
+
+            PCentral.X = (int)(centro.X + (Vpitch * Math.Cos((ARoll + adjV) * Math.PI / 180)));
+            PCentral.Y = (int)(centro.Y + (Vpitch * Math.Sin((ARoll + adjV) * Math.PI / 180)));
+
+            PCentral.X = (int)(PCentral.X + (VYaw * Math.Cos((ARoll) * Math.PI / 180)));
+            PCentral.Y = (int)(PCentral.Y + (VYaw * Math.Sin((ARoll) * Math.PI / 180)));
+
+            //PPitch.X = pictureBox1.Width / 2; //por ahora constante
+            //PPitch.Y = Vpitch * (pictureBox1.Height / 2) / 50 + pictureBox1.Height /2; //El 50 representa el valor de pitch correspondiente  a pictureBox1.Height / 2
+
+
+            /******** Dibujo Base del Horizonte *********/
+            grafico.Clear(cielo);
+            //dibujar rectangulo del suelo
+            Point baseRec = new Point();
+            baseRec.X = (int)(PCentral.X + ((scl / 4) * 18 * Math.Cos((ARoll + adjV) * Math.PI / 180)));
+            baseRec.Y = (int)(PCentral.Y + ((scl / 4) * 18 * Math.Sin((ARoll + adjV) * Math.PI / 180)));
+
+            //Rectangulo
+            gnd[0].X = (int)(PCentral.X + (lngGnd * Math.Cos((180 + ARoll) * Math.PI / 180)));
+            gnd[0].Y = (int)(PCentral.Y + (lngGnd * Math.Sin((180 + ARoll) * Math.PI / 180)));
+            gnd[1].X = (int)(PCentral.X + (lngGnd * Math.Cos((ARoll) * Math.PI / 180)));
+            gnd[1].Y = (int)(PCentral.Y + (lngGnd * Math.Sin((ARoll) * Math.PI / 180)));
+            gnd[2].X = (int)(baseRec.X + (lngGnd * Math.Cos((ARoll) * Math.PI / 180)));
+            gnd[2].Y = (int)(baseRec.Y + (lngGnd * Math.Sin((180 + ARoll) * Math.PI / 180)));
+            gnd[3].X = (int)(baseRec.X + (lngGnd * Math.Cos((ARoll) * Math.PI / 180)));
+            gnd[3].Y = (int)(baseRec.Y + (lngGnd * Math.Sin((ARoll) * Math.PI / 180)));
+            //Con esto funciona hasta los 90 grados de giro
+
+            //Dibujo
+            grafico.DrawPolygon(lapizBlanco, gnd);
+            grafico.FillPolygon(pincelTierra, gnd);
+
+            /*********** Dibujo lineas de altitud *******************/
+
+            //Lineas largas
+            //Texto
+            Size textoChico = new Size(scl / 8, scl / 8);
+            Size textoGrande = new Size(scl / 6, scl / 6);
+
+            PointF[] recGrande = new PointF[4];
+
+            int sepTxt = scl / 30; //Separacion del texto con respecto a las lineas
+            int txtWidth = scl / 40; //Anchura del cuadro de texto
+            int txtHeight = scl / 80; //Mitad de la altura del cuadro de texto
+            //Lineas superiores
+            for (int i = 0; i < 18; i++)
+            {
+                centLineas.X = (int)(PCentral.X + (i * sepLin * Math.Cos((adjV - ARoll) * Math.PI / 180)));
+                centLineas.Y = (int)(PCentral.Y - (i * sepLin * Math.Sin((adjV - ARoll) * Math.PI / 180)));
+
+                a.X = (int)(centLineas.X + (lngLinL * Math.Cos((180 + ARoll) * Math.PI / 180)));
+                a.Y = (int)(centLineas.Y + (lngLinL * Math.Sin((180 + ARoll) * Math.PI / 180)));
+
+                b.X = (int)(centLineas.X + (lngLinL * Math.Cos((ARoll) * Math.PI / 180)));
+                b.Y = (int)(centLineas.Y + (lngLinL * Math.Sin((ARoll) * Math.PI / 180)));
+
+                grafico.DrawLine(lapizBlanco, a, b);
+
+                //Para hacer el texto voy a tener que crear una caja y ubicarlo dentro
+                //recGrande[0].X = (float)(a.X - (sepTxt * Math.Cos((ARoll) * Math.PI / 180)));
+                //recGrande[0].Y = (float)(a.Y - (txtHeight * Math.Sin((ARoll) * Math.PI / 180)));
+                //recGrande[1].X = (float)(recGrande[0].X + (txtWidth * Math.Cos((ARoll) * Math.PI / 180)));
+                //recGrande[1].Y = recGrande[0].Y;
+                //recGrande[2].X = (float)(a.X - (sepTxt * Math.Cos((ARoll) * Math.PI / 180)));
+                //recGrande[2].Y = (float)(a.Y + (txtHeight * Math.Sin((ARoll) * Math.PI / 180)));
+                //recGrande[3].X = (float)(recGrande[2].X + (txtWidth * Math.Cos((ARoll) * Math.PI / 180)));
+                //recGrande[3].Y = recGrande[2].Y;
+
+                //t.Y = a.Y - scl / 20;
+                //if (i == 0) { t.X += scl / 40; } //Ajuste de 0
+                //grafico.DrawString((i * 10).ToString(), Arial, pincelBlanco, t);
+                //if (i == 0) { t.X -= scl / 40; }
+            }
+
+            t.X -= scl / 60; //ajuste por el '-'
+            //Lineas inferores
+            for (int i = 1; i < 17; i++)
+            {
+                centLineas.X = (int)(PCentral.X - (i * sepLin * Math.Cos((adjV - ARoll) * Math.PI / 180)));
+                centLineas.Y = (int)(PCentral.Y + (i * sepLin * Math.Sin((adjV - ARoll) * Math.PI / 180)));
+
+                a.X = (int)(centLineas.X + (lngLinL * Math.Cos((180 + ARoll) * Math.PI / 180)));
+                a.Y = (int)(centLineas.Y + (lngLinL * Math.Sin((180 + ARoll) * Math.PI / 180)));
+
+                b.X = (int)(centLineas.X + (lngLinL * Math.Cos((ARoll) * Math.PI / 180)));
+                b.Y = (int)(centLineas.Y + (lngLinL * Math.Sin((ARoll) * Math.PI / 180)));
+
+                grafico.DrawLine(lapizBlanco, a, b);
+            }
+
+            //Lineas cortas
+            //Lineas Superiores
+            for (int i = 0; i < 18; i++)
+            {
+                centLineas.X = (int)(PCentral.X + ((i * sepLin - (sepLin / 2)) * Math.Cos((adjV - ARoll) * Math.PI / 180)));
+                centLineas.Y = (int)(PCentral.Y - ((i * sepLin - (sepLin / 2)) * Math.Sin((adjV - ARoll) * Math.PI / 180)));
+
+                a.X = (int)(centLineas.X + (lngLinC * Math.Cos((180 + ARoll) * Math.PI / 180)));
+                a.Y = (int)(centLineas.Y + (lngLinC * Math.Sin((180 + ARoll) * Math.PI / 180)));
+
+                b.X = (int)(centLineas.X + (lngLinC * Math.Cos((ARoll) * Math.PI / 180)));
+                b.Y = (int)(centLineas.Y + (lngLinC * Math.Sin((ARoll) * Math.PI / 180)));
+
+                grafico.DrawLine(lapizBlanco, a, b);
+
+            }
+
+            t.X -= scl / 60; //ajuste por el '-'
+            //Lineas inferores
+            for (int i = 1; i < 17; i++)
+            {
+                centLineas.X = (int)(PCentral.X - ((i * sepLin + (sepLin / 2)) * Math.Cos((adjV - ARoll) * Math.PI / 180)));
+                centLineas.Y = (int)(PCentral.Y + ((i * sepLin + (sepLin / 2)) * Math.Sin((adjV - ARoll) * Math.PI / 180)));
+
+                a.X = (int)(centLineas.X + (lngLinC * Math.Cos((180 + ARoll) * Math.PI / 180)));
+                a.Y = (int)(centLineas.Y + (lngLinC * Math.Sin((180 + ARoll) * Math.PI / 180)));
+
+                b.X = (int)(centLineas.X + (lngLinC * Math.Cos((ARoll) * Math.PI / 180)));
+                b.Y = (int)(centLineas.Y + (lngLinC * Math.Sin((ARoll) * Math.PI / 180)));
+
+                grafico.DrawLine(lapizBlanco, a, b);
+            }
+
+            /******* Dibujo reticula central (fija) ************/
+
+            //Punto central
+            Point puntoCentral = new Point(); //Punto inicial del rectangulo que contiene al punto central
+            puntoCentral.X = pictureBox1.Width / 2 - (scl / 150);
+            puntoCentral.Y = pictureBox1.Height / 2 - (scl / 150); //Escalado
+            Rectangle recCentral = new Rectangle(puntoCentral.X, puntoCentral.Y, scl / 75, scl / 75);
+            grafico.DrawEllipse(lapizRojo, recCentral);
+            grafico.FillEllipse(pincelRojo, recCentral);
+
+            //Lineas
+            grafico.DrawLine(lapizRojo, centro.X - scl / 4, centro.Y, centro.X - scl / 20, centro.Y);
+            grafico.DrawLine(lapizRojo, pictureBox1.Width - scl / 4, centro.Y, centro.X + scl / 20, centro.Y);
+
+            //Circulo
+            grafico.DrawArc(lapizRojo, centro.X - scl / 20, centro.Y - scl / 20, scl / 10, scl / 10, 0, 180);
+
+
+            //Borde del instrumento
+            grafico.DrawEllipse(lapizBlanco, 0, 0, pictureBox1.Width, pictureBox1.Height); //Creo el borde del horizonte
+            GraphicsPath area = new GraphicsPath(); //Creo un Path, que es una serie de segmentos, que en este caso utilizo como el area a rellenar
+            area.AddEllipse(0, 0, pictureBox1.Width, pictureBox1.Height); //Agrego el circulo interior
+            area.AddEllipse(-(pictureBox1.Width / 2), -(pictureBox1.Height / 2), pictureBox1.Width * 2, pictureBox1.Height * 2); //Agrego un circulo exterior mas grande
+            grafico.FillPath(pincelNegro, area); //Relleno el area creada
+
+            //Referencia de horizonte
+            int altTrg = scl / 10; //Mitad de la altura del triangulo de referencia
+            int lrgTrg = scl / 7; //Anchura de los triangulos de referecia
+
+            Point[] trgL = new Point[3]; //Triangulo izquierdo
+            Point[] trgR = new Point[3]; //Triangulo derecho
+
+            trgL[0].X = trgL[2].X = 0;
+            trgL[1].X = lrgTrg;
+            trgL[0].Y = centro.Y - altTrg;
+            trgL[1].Y = centro.Y;
+            trgL[2].Y = centro.Y + altTrg;
+
+            grafico.DrawPolygon(lapizNegro, trgL);
+            grafico.FillPolygon(pincelGris, trgL);
+
+            trgR[0].X = trgR[2].X = pictureBox1.Width;
+            trgR[1].X = pictureBox1.Width - lrgTrg;
+            trgR[0].Y = centro.Y - altTrg;
+            trgR[1].Y = centro.Y;
+            trgR[2].Y = centro.Y + altTrg;
+
+            grafico.DrawPolygon(lapizNegro, trgR);
+            grafico.FillPolygon(pincelGris, trgR);
+
+            //Referencia de Viraje
+            double sepBrg = scl / 2; //Separacion con respecto al centro de las lineas de viraje
+            Point[] brg15L = new Point[2];
+            Point[] brg15R = new Point[2];
+
+            brg15R[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 + 15) * Math.PI / 180)));
+            brg15R[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 + 15) * Math.PI / 180)));
+            brg15R[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 + 15) * Math.PI / 180)));
+            brg15R[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 + 15) * Math.PI / 180)));
+
+            brg15L[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 - 15) * Math.PI / 180)));
+            brg15L[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 - 15) * Math.PI / 180)));
+            brg15L[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 - 15) * Math.PI / 180)));
+            brg15L[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 - 15) * Math.PI / 180)));
+
+            Point[] brg30L = new Point[2];
+            Point[] brg30R = new Point[2];
+
+            brg30R[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 + 30) * Math.PI / 180)));
+            brg30R[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 + 30) * Math.PI / 180)));
+            brg30R[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 + 30) * Math.PI / 180)));
+            brg30R[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 + 30) * Math.PI / 180)));
+
+            brg30L[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 - 30) * Math.PI / 180)));
+            brg30L[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 - 30) * Math.PI / 180)));
+            brg30L[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 - 30) * Math.PI / 180)));
+            brg30L[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 - 30) * Math.PI / 180)));
+
+            Point[] brg45L = new Point[2];
+            Point[] brg45R = new Point[2];
+
+            brg45R[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 + 45) * Math.PI / 180)));
+            brg45R[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 + 45) * Math.PI / 180)));
+            brg45R[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 + 45) * Math.PI / 180)));
+            brg45R[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 + 45) * Math.PI / 180)));
+
+            brg45L[0].X = (int)(centro.X + (sepBrg * Math.Cos((-90 - 45) * Math.PI / 180)));
+            brg45L[0].Y = (int)(centro.Y + (sepBrg * Math.Sin((-90 - 45) * Math.PI / 180)));
+            brg45L[1].X = (int)(centro.X + (sepBrg * 2 * Math.Cos((-90 - 45) * Math.PI / 180)));
+            brg45L[1].Y = (int)(centro.Y + (sepBrg * 2 * Math.Sin((-90 - 45) * Math.PI / 180)));
+
+            grafico.DrawLine(lapizBlanco, brg15R[0], brg15R[1]);
+            grafico.DrawLine(lapizBlanco, brg15L[0], brg15L[1]);
+
+            grafico.DrawLine(lapizBlanco, brg30R[0], brg30R[1]);
+            grafico.DrawLine(lapizBlanco, brg30L[0], brg30L[1]);
+
+            grafico.DrawLine(lapizBlanco, brg45R[0], brg45R[1]);
+            grafico.DrawLine(lapizBlanco, brg45L[0], brg45L[1]);
+
+            //IMPORTANTE colocar la imagen creada en el picturebox al final de la funcion
+            pictureBox1.Image = horizonte;
+        }
+        #endregion
     }
 }

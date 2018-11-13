@@ -120,6 +120,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aptitud.cs" />
     <Compile Include="datos.cs" />
     <Compile Include="Form_Main.cs">
       <SubType>Form</SubType>
