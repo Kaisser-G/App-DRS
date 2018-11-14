@@ -46,7 +46,6 @@ namespace Primera_aplicacion
         double LngInicial = -58.23879250387637;
 
         int cont = 1; //contador para las ubicaciones seleccionadas
-        int contAux = 1; //contador para las ubicaciones de auxilio
         public int rango = 300; //rango aproximado en metros del alcance del dron
         bool rangoOnOff = false; //indica si ya esta dibujado o no el alcance del dron en el mapa
         int rangMax = 2400; //alcance maximo estimado del drone en metros con bateria llena
@@ -68,7 +67,7 @@ namespace Primera_aplicacion
         GMapOverlay serialOverlay = new GMapOverlay("Capa Serial");
         int contRuta = 1;//contador para las ubicaciones de 
 
-        //Creo el objeto del Form de conexion con el XBee para poder acceder a sus parametros
+        //Creo el objeto del Form de conexion serie
         Form_Conexion formCon;
 
         public Form_Main()
@@ -553,7 +552,7 @@ namespace Primera_aplicacion
         }
 
         #region Dibujo
-        private void Dibujar(int pitch, int roll, int yaw)
+        public void Dibujar(int pitch, int roll, int yaw)
         {
             #region Config
             /**** Configuracion ******/
@@ -626,17 +625,11 @@ namespace Primera_aplicacion
             Arial = new Font("Arial", fuente);
             #endregion
 
-            /*      VALORES A MANEJAR 
-             *  -pitch -> Movimiento hacia arriba y abajo del gnd
-             *  -yaw   -> creo que no lo necesito
-             *  -roll  -> Giro del gnd
-             */
-
             /******** Comandos *****************/
 
-            Vpitch = pitch - 50; //conversion adaptada al VScroll
+            Vpitch = pitch;
 
-            VYaw = yaw - 50; //conversion adaptada al VScroll
+            VYaw = yaw;
 
             ARoll = roll * 360 / 100;
 
@@ -646,10 +639,6 @@ namespace Primera_aplicacion
 
             PCentral.X = (int)(PCentral.X + (VYaw * Math.Cos((ARoll) * Math.PI / 180)));
             PCentral.Y = (int)(PCentral.Y + (VYaw * Math.Sin((ARoll) * Math.PI / 180)));
-
-            //PPitch.X = pictureBox1.Width / 2; //por ahora constante
-            //PPitch.Y = Vpitch * (pictureBox1.Height / 2) / 50 + pictureBox1.Height /2; //El 50 representa el valor de pitch correspondiente  a pictureBox1.Height / 2
-
 
             /******** Dibujo Base del Horizonte *********/
             grafico.Clear(cielo);
@@ -667,7 +656,6 @@ namespace Primera_aplicacion
             gnd[2].Y = (int)(baseRec.Y + (lngGnd * Math.Sin((180 + ARoll) * Math.PI / 180)));
             gnd[3].X = (int)(baseRec.X + (lngGnd * Math.Cos((ARoll) * Math.PI / 180)));
             gnd[3].Y = (int)(baseRec.Y + (lngGnd * Math.Sin((ARoll) * Math.PI / 180)));
-            //Con esto funciona hasta los 90 grados de giro
 
             //Dibujo
             grafico.DrawPolygon(lapizBlanco, gnd);
@@ -784,10 +772,13 @@ namespace Primera_aplicacion
 
             //Borde del instrumento
             grafico.DrawEllipse(lapizBlanco, 0, 0, pictureBox1.Width, pictureBox1.Height); //Creo el borde del horizonte
-            GraphicsPath area = new GraphicsPath(); //Creo un Path, que es una serie de segmentos, que en este caso utilizo como el area a rellenar
+            //Creo un Path, que es una serie de segmentos, que en este caso utilizo como el area a rellenar
+            GraphicsPath area = new GraphicsPath(); 
             area.AddEllipse(0, 0, pictureBox1.Width, pictureBox1.Height); //Agrego el circulo interior
-            area.AddEllipse(-(pictureBox1.Width / 2), -(pictureBox1.Height / 2), pictureBox1.Width * 2, pictureBox1.Height * 2); //Agrego un circulo exterior mas grande
-            grafico.FillPath(pincelNegro, area); //Relleno el area creada
+            //Agrego un circulo exterior mas grande
+            area.AddEllipse(-(pictureBox1.Width / 2), -(pictureBox1.Height / 2), pictureBox1.Width * 2, pictureBox1.Height * 2);
+            //Relleno el area creada
+            grafico.FillPath(pincelNegro, area); 
 
             //Referencia de horizonte
             int altTrg = scl / 10; //Mitad de la altura del triangulo de referencia
