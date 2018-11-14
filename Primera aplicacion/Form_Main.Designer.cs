@@ -254,7 +254,7 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Image = global::Primera_aplicacion.Properties.Resources.DRS_Logo_v2;
-            this.button1.Location = new System.Drawing.Point(430, 5);
+            this.button1.Location = new System.Drawing.Point(385, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 30);
             this.button1.TabIndex = 15;

@@ -1,8 +1,7 @@
 ﻿/*
- * Acordar de que manera se va a realizar la comunicacion. Principalmente la cantidad de datos que voy a manjar
+ * Acordar de que manera se va a realizar la comunicacion. Principalmente la cantidad de datos que voy a manejar
  * y si tengo que implementar algun protocolo. El problema es que el puto de diego no quiere decirme que verga quiere hacer.
- * Lo primero a hacer es ajustar la funcion de recepcion universal. Una vez hecho esto puedo crear o adaptar funciones
- * especializadas para cada tipo de datos.
+ * Ahora queda definir si alguno de los datos recibidos necesita se adaptado, en caso contrario ya esta todo terminado.
  * Ademas tengo que agregar la recepcion de los datos del pitch.
  */
 using System;
@@ -161,10 +160,12 @@ namespace Primera_aplicacion
         {
             if (data.Length == 5) //Verifica que haya 5 datos en el array
             {
-                //establecer nivel de bateria y rango
+                //Enviar datos de ubicacion
+                Form_Main.coordenadasSerie(Convert.ToDouble(data[0]), Convert.ToDouble(data[1]));
+                //Establecer nivel de bateria y rango
                 Form_Main.nivelBateria(Convert.ToInt16(data[2]));
                 //Inicializa el horizonte
-                Form_Main.Dibujar(Convert.ToInt16(data[3]), Convert.ToInt16(data[4]), Convert.ToInt16(data[5]));
+                Form_Main.Dibujar(Convert.ToInt16(data[3]), Convert.ToInt16(data[4]), 0); //Esta suprimido el mov en Yaw
             }
             else //En caso contrario, el formato de datos es incorrecto
             {
