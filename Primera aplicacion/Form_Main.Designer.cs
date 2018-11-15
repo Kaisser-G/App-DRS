@@ -48,18 +48,18 @@
             this.btnMin = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.btnConexion = new System.Windows.Forms.Button();
-            this.btnRango = new System.Windows.Forms.Button();
-            this.pbNivelBat = new System.Windows.Forms.ProgressBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblBateria = new System.Windows.Forms.Label();
-            this.lblNivel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnRango = new System.Windows.Forms.Button();
+            this.pbNivelBat = new System.Windows.Forms.ProgressBar();
+            this.lblNivel = new System.Windows.Forms.Label();
+            this.lblBateria = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMapControl
@@ -309,6 +309,41 @@
             this.btnConexion.UseVisualStyleBackColor = false;
             this.btnConexion.Click += new System.EventHandler(this.btnConexion_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBox1);
+            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(603, 204);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(217, 234);
+            this.groupBox2.TabIndex = 34;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Aptitud";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
+            this.pictureBox1.TabIndex = 35;
+            this.pictureBox1.TabStop = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.lblBateria);
+            this.groupBox1.Controls.Add(this.lblNivel);
+            this.groupBox1.Controls.Add(this.pbNivelBat);
+            this.groupBox1.Controls.Add(this.btnRango);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(644, 46);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(140, 145);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Bateria";
+            // 
             // btnRango
             // 
             this.btnRango.BackColor = System.Drawing.Color.DarkSlateGray;
@@ -332,33 +367,6 @@
             this.pbNivelBat.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pbNivelBat.TabIndex = 29;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.lblBateria);
-            this.groupBox1.Controls.Add(this.lblNivel);
-            this.groupBox1.Controls.Add(this.pbNivelBat);
-            this.groupBox1.Controls.Add(this.btnRango);
-            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(644, 46);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(140, 145);
-            this.groupBox1.TabIndex = 31;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Bateria";
-            // 
-            // lblBateria
-            // 
-            this.lblBateria.AutoSize = true;
-            this.lblBateria.BackColor = System.Drawing.Color.Transparent;
-            this.lblBateria.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBateria.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblBateria.Location = new System.Drawing.Point(89, 27);
-            this.lblBateria.Name = "lblBateria";
-            this.lblBateria.Size = new System.Drawing.Size(29, 19);
-            this.lblBateria.TabIndex = 32;
-            this.lblBateria.Text = "0%";
-            // 
             // lblNivel
             // 
             this.lblNivel.AutoSize = true;
@@ -371,25 +379,17 @@
             this.lblNivel.TabIndex = 31;
             this.lblNivel.Text = "Nivel:";
             // 
-            // groupBox2
+            // lblBateria
             // 
-            this.groupBox2.Controls.Add(this.pictureBox1);
-            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(603, 204);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(217, 234);
-            this.groupBox2.TabIndex = 34;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Aptitud";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
-            this.pictureBox1.TabIndex = 35;
-            this.pictureBox1.TabStop = false;
+            this.lblBateria.AutoSize = true;
+            this.lblBateria.BackColor = System.Drawing.Color.Transparent;
+            this.lblBateria.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBateria.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblBateria.Location = new System.Drawing.Point(89, 27);
+            this.lblBateria.Name = "lblBateria";
+            this.lblBateria.Size = new System.Drawing.Size(29, 19);
+            this.lblBateria.TabIndex = 32;
+            this.lblBateria.Text = "0%";
             // 
             // Form_Main
             // 
@@ -426,10 +426,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,13 +455,13 @@
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Button btnMin;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnRango;
-        private System.Windows.Forms.ProgressBar pbNivelBat;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label lblBateria;
         private System.Windows.Forms.Label lblNivel;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ProgressBar pbNivelBat;
+        private System.Windows.Forms.Button btnRango;
     }
 }
 

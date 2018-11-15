@@ -117,9 +117,9 @@ namespace Primera_aplicacion
             dataGridView1.ReadOnly = true;
 
             //Dibujo
-            datos.Pitch = 50;
+            datos.Pitch = 0;
             datos.Roll = 0;
-            datos.Yaw = 50;
+            datos.Yaw = 0;
             Dibujar(datos.Pitch, datos.Roll, datos.Yaw);
 
             #region MovimientoForm
@@ -303,9 +303,11 @@ namespace Primera_aplicacion
 
         private void btnConexion_Click(object sender, EventArgs e)
         {
+            if (formCon == null)
                 formCon = new Form_Conexion(this);
+
                 //Abrir el Form de conexion
-                formCon.Show(this);
+                formCon.Show(this);            
         }
 
         #region ComunicacionSerie
@@ -314,7 +316,7 @@ namespace Primera_aplicacion
             PointLatLng CoordSerie = new PointLatLng(dataLat, dataLng);
 
             marker = new GMarkerGoogle(CoordSerie, GMarkerGoogleType.red);
-            marker.Tag = "Marcador Serie " + cont;
+            marker.Tag = "Marcador Serie " + cont.ToString();
             marker.Position = CoordSerie;
 
             markerOverlay.Markers.Add(marker);
@@ -333,6 +335,13 @@ namespace Primera_aplicacion
         //Recibe un par de coordenadas y las setea como las coordenadas iniciales de la app
         public void coordenadasIniciales(double lat, double lng)
         {
+            //Esta es una solucion provisoria ya que tengo problemas con la conversion de string a double en cuanto
+            //a la ubicacion del punto decimal
+            while (lat > 180 || lat < -180)
+                lat /= 10;
+            while (lng > 90 || lng < -90)
+                lng /= 10;
+
             LatInicial = lat;
             LngInicial = lng;
 
@@ -361,7 +370,7 @@ namespace Primera_aplicacion
             //Limpiar la lista de recorrido para asegurarse de que la coord inical sea el primer miembro
             listaRecorrido.Clear();
             //Agregar el punto inicial a la lista de recorrido
-            listaRecorrido.Add(new PointLatLng(lat, lng));
+            listaRecorrido.Add(new PointLatLng(LatInicial, LngInicial));
         }
         #endregion
 
@@ -630,7 +639,7 @@ namespace Primera_aplicacion
             Vpitch = pitch;
 
             VYaw = yaw;
-
+            
             ARoll = roll * 360 / 100;
 
 

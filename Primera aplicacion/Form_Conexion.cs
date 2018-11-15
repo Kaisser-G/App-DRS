@@ -16,6 +16,7 @@ using System.Windows.Forms;
 
 using System.IO;
 using System.IO.Ports;
+using System.Globalization;
 
 namespace Primera_aplicacion
 {
@@ -27,6 +28,8 @@ namespace Primera_aplicacion
         public double datosLat = 0, datosLng = 0; //Datos de coordenadas
         string initCom = "i"; //Caracteres enviados para hacer saber que la app esta funcionando 
         int comErr = 0; //Contador de errores en el formato de datos de la comunicacion
+        int contSetup = 0; //Contador de intentos fallidos en comenzar la comunicacion
+        //bool conOK = false; //Establece si se pudo establecer correctamente la comunicacion
         Form_Main Form_Main; //Creo un objeto referenciando al Formulario principal
 
         // Declara el delegado que presentara lo recibido en el formulario. Debido a que la funcion
@@ -75,7 +78,6 @@ namespace Primera_aplicacion
                     if(!init)
                     {
                         Setup();
-                        init = true;
                     }
                 }
                 catch (Exception ex)   // Código de error
@@ -116,21 +118,12 @@ namespace Primera_aplicacion
             /*
              * Recepcion de datos universal
              */
-                string datos;
-                datos = recibirDatos();
+                string datos = recibirDatos();
                 //Separa los datos recibidos
                 string[] Dts = datos.Split(new Char[] { ';' });
+
+                distribucionDatos(Dts);
                 
-                if (Dts.Length <= 2) //Si el dato tiene dos partes, es una ubicacion
-                {
-                    //adapta los datos
-                    double lat = Convert.ToDouble(Dts[0]);
-                    double lng = Convert.ToDouble(Dts[1]);
-                    //Dibuja un marcador en el punto
-                    Form_Main.dibujarMarcador(lat, lng);
-                    //Actualiza el recorrido
-                    Form_Main.dibujarRecorrido(lat, lng);
-                }
             }
             catch{}
         }
@@ -156,12 +149,12 @@ namespace Primera_aplicacion
         }
 
         //Separa los datos recibidos y los envia al Formulario principal
-        private void Datos(string[] data)
+        private void distribucionDatos(string[] data)
         {
             if (data.Length == 5) //Verifica que haya 5 datos en el array
             {
                 //Enviar datos de ubicacion
-                Form_Main.coordenadasSerie(Convert.ToDouble(data[0]), Convert.ToDouble(data[1]));
+                Form_Main.coordenadasSerie(double.Parse(data[0]), double.Parse(data[1]));
                 //Establecer nivel de bateria y rango
                 Form_Main.nivelBateria(Convert.ToInt16(data[2]));
                 //Inicializa el horizonte
@@ -181,22 +174,36 @@ namespace Primera_aplicacion
         //inicializa la parte de comunicacion de la app
         private void Setup()
         {
-            /*
-             * -Enviar aviso de que inicio la app                        
-             * -Recbir datos de Coordenadas iniciales (y bateria)        
-             * -Setear las Coordenadas Iniciales en el Main              
-             */
-            string coordenadas;
+            string datoSerie;
 
             //envia los datos de inicio
-            coordenadas = iniciarCom();
-            string[] Dts = coordenadas.Split(new Char[] { ';' }, 6); //separa la latitud, longitud, bateria, y aptitud
-            //setea las coordenadas iniciales
-            Form_Main.coordenadasIniciales(Convert.ToDouble(Dts[0]), Convert.ToDouble(Dts[1]));
-            //establecer nivel de bateria y rango
-            Form_Main.nivelBateria(Convert.ToInt16(Dts[2]));
-            //Inicializa el horizonte
-            Form_Main.Dibujar(Convert.ToInt16(Dts[3]), Convert.ToInt16(Dts[4]), Convert.ToInt16(Dts[5]));
+            datoSerie = iniciarCom();
+            if (datoSerie == "") //Si no llegan datos a la entrada
+            {
+                if (++contSetup >= 100)
+                {
+                    MessageBox.Show("Error en la comunicaion con tierra", "Error"); //Muestra el error
+                    conectado = true;
+                    Conectar();         //Desconecta la app
+                    init = false;
+                    contSetup = 0;
+                }
+                else
+                    Setup(); //En caso contrario vuelve a intentarlo
+            }
+            else
+            {
+                string[] Dts = datoSerie.Split(new Char[] { ';' }, 5); //separa la latitud, longitud, bateria, y aptitud
+                //setea las coordenadas iniciales
+                Form_Main.coordenadasIniciales(double.Parse(Dts[0]), double.Parse(Dts[1]));
+                //establecer nivel de bateria y rango
+                Form_Main.nivelBateria(Convert.ToInt16(Dts[2]));
+                //Inicializa el horizonte
+                Form_Main.Dibujar(Convert.ToInt16(Dts[3]), Convert.ToInt16(Dts[4]), 0);
+                //El setup se realizo correctamente
+                init = true;
+                //conOK = true;
+            }
             
         }
 
@@ -204,7 +211,14 @@ namespace Primera_aplicacion
         private string iniciarCom()
         {
             string data = "";
-            serialPort1.Write(initCom); //Se enviar un dato indicando que se abrio la conexion
+            try
+            {
+                serialPort1.Write(initCom); //Se enviar un dato indicando que se abrio la conexion
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
             data = recibirDatos();    //Funcion para recibir los datos del puerto serie
             serialPort1.DiscardInBuffer(); //Limpia el Buffer de entrada
             return data;
@@ -225,7 +239,7 @@ namespace Primera_aplicacion
 
         private void button1_Click(object sender, EventArgs e)
         {
-            conectado = false;
+            conectado = true;
             init = false;
             Conectar();
         }
