@@ -51,10 +51,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnRango = new System.Windows.Forms.Button();
-            this.pbNivelBat = new System.Windows.Forms.ProgressBar();
-            this.lblNivel = new System.Windows.Forms.Label();
             this.lblBateria = new System.Windows.Forms.Label();
+            this.lblNivel = new System.Windows.Forms.Label();
+            this.pbNivelBat = new System.Windows.Forms.ProgressBar();
+            this.btnRango = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -319,7 +319,7 @@
             this.groupBox2.Size = new System.Drawing.Size(217, 234);
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Aptitud";
+            this.groupBox2.Text = "Actitud";
             // 
             // pictureBox1
             // 
@@ -344,28 +344,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bateria";
             // 
-            // btnRango
+            // lblBateria
             // 
-            this.btnRango.BackColor = System.Drawing.Color.DarkSlateGray;
-            this.btnRango.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRango.ForeColor = System.Drawing.Color.White;
-            this.btnRango.Location = new System.Drawing.Point(22, 94);
-            this.btnRango.Name = "btnRango";
-            this.btnRango.Size = new System.Drawing.Size(97, 34);
-            this.btnRango.TabIndex = 25;
-            this.btnRango.Text = "Rango";
-            this.btnRango.UseVisualStyleBackColor = false;
-            this.btnRango.Click += new System.EventHandler(this.btnRango_Click);
-            // 
-            // pbNivelBat
-            // 
-            this.pbNivelBat.BackColor = System.Drawing.Color.Firebrick;
-            this.pbNivelBat.ForeColor = System.Drawing.Color.PaleGreen;
-            this.pbNivelBat.Location = new System.Drawing.Point(21, 47);
-            this.pbNivelBat.Name = "pbNivelBat";
-            this.pbNivelBat.Size = new System.Drawing.Size(97, 23);
-            this.pbNivelBat.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pbNivelBat.TabIndex = 29;
+            this.lblBateria.AutoSize = true;
+            this.lblBateria.BackColor = System.Drawing.Color.Transparent;
+            this.lblBateria.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBateria.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblBateria.Location = new System.Drawing.Point(89, 27);
+            this.lblBateria.Name = "lblBateria";
+            this.lblBateria.Size = new System.Drawing.Size(29, 19);
+            this.lblBateria.TabIndex = 32;
+            this.lblBateria.Text = "0%";
             // 
             // lblNivel
             // 
@@ -379,17 +368,28 @@
             this.lblNivel.TabIndex = 31;
             this.lblNivel.Text = "Nivel:";
             // 
-            // lblBateria
+            // pbNivelBat
             // 
-            this.lblBateria.AutoSize = true;
-            this.lblBateria.BackColor = System.Drawing.Color.Transparent;
-            this.lblBateria.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBateria.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblBateria.Location = new System.Drawing.Point(89, 27);
-            this.lblBateria.Name = "lblBateria";
-            this.lblBateria.Size = new System.Drawing.Size(29, 19);
-            this.lblBateria.TabIndex = 32;
-            this.lblBateria.Text = "0%";
+            this.pbNivelBat.BackColor = System.Drawing.Color.Firebrick;
+            this.pbNivelBat.ForeColor = System.Drawing.Color.PaleGreen;
+            this.pbNivelBat.Location = new System.Drawing.Point(21, 47);
+            this.pbNivelBat.Name = "pbNivelBat";
+            this.pbNivelBat.Size = new System.Drawing.Size(97, 23);
+            this.pbNivelBat.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.pbNivelBat.TabIndex = 29;
+            // 
+            // btnRango
+            // 
+            this.btnRango.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.btnRango.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRango.ForeColor = System.Drawing.Color.White;
+            this.btnRango.Location = new System.Drawing.Point(22, 94);
+            this.btnRango.Name = "btnRango";
+            this.btnRango.Size = new System.Drawing.Size(97, 34);
+            this.btnRango.TabIndex = 25;
+            this.btnRango.Text = "Rango";
+            this.btnRango.UseVisualStyleBackColor = false;
+            this.btnRango.Click += new System.EventHandler(this.btnRango_Click);
             // 
             // Form_Main
             // 

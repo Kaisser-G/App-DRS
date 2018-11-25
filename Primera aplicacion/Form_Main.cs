@@ -35,8 +35,8 @@ namespace Primera_aplicacion
         Pen lapizBlanco, lapizRojo, lapizNegro, lapizGris, lapizTierra, lapizCielo;
         Font Arial;
 
-        //Creo un objeto de la clase para guardar los datos de aptitud del drone
-        Aptitud datos = new Aptitud();
+        //Creo un objeto de la clase para guardar los datos de actitud del drone 
+        Actitud datos = new Actitud();
 
         //Fila seleccionada en el dataTable
         int fila_seleccionada;
@@ -421,7 +421,7 @@ namespace Primera_aplicacion
         const int WM_SYSCOMMAND = 0x112;    //Comandos del sistema en hexadecimal
         const int MOUSE_MOVE = 0xF012;
 
-        // Declaraciones del API 
+        // Declaraciones del API de Windows
         [System.Runtime.InteropServices.DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
 

@@ -16,7 +16,6 @@ using System.Windows.Forms;
 
 using System.IO;
 using System.IO.Ports;
-using System.Globalization;
 
 namespace Primera_aplicacion
 {
@@ -29,11 +28,10 @@ namespace Primera_aplicacion
         string initCom = "i"; //Caracteres enviados para hacer saber que la app esta funcionando 
         int comErr = 0; //Contador de errores en el formato de datos de la comunicacion
         int contSetup = 0; //Contador de intentos fallidos en comenzar la comunicacion
-        //bool conOK = false; //Establece si se pudo establecer correctamente la comunicacion
         Form_Main Form_Main; //Creo un objeto referenciando al Formulario principal
 
-        // Declara el delegado que presentara lo recibido en el formulario. Debido a que la funcion
-        //en la que se emplea es del tipo string, el delegado es del mismo tipo
+        // Declara el delegado que presentara lo recibido en el formulario. Debido a que la 
+        //funcion en la que se emplea es del tipo string, el delegado es del mismo tipo
         delegate string NuevoDato();
 
         //En el constructor del Form hijo agrego como parametro al form principal para que Form_Conexion
@@ -49,6 +47,7 @@ namespace Primera_aplicacion
             //Escondo esta ventana
             this.Location = Form_Main.Location;
             this.Hide();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void btn_Conectar_Click(object sender, EventArgs e)
@@ -114,11 +113,10 @@ namespace Primera_aplicacion
         {
             try
             {
-            
-            /*
-             * Recepcion de datos universal
-             */
-                string datos = recibirDatos();
+                string datos;
+                do
+                    datos = recibirDatos();
+                while(datos == "null");
                 //Separa los datos recibidos
                 string[] Dts = datos.Split(new Char[] { ';' });
 
@@ -133,11 +131,12 @@ namespace Primera_aplicacion
         //Revisa el puerto serie y devuelve lo que encuentre como un string
         private string recibirDatos()
         {
-            string datos = "";
+            string datos = "null";
 
             if (this.InvokeRequired)
             {
                 NuevoDato ND = new NuevoDato(recibirDatos);
+
                 //Ejecuta un delegado en el subproceso que posee el identificador de ventana subyacente del control.
                 this.Invoke(ND);
             }
@@ -145,7 +144,7 @@ namespace Primera_aplicacion
             {
                 datos = Convert.ToString(serialPort1.ReadExisting());
             }
-            return datos;
+                return datos;
         }
 
         //Separa los datos recibidos y los envia al Formulario principal
@@ -162,7 +161,7 @@ namespace Primera_aplicacion
             }
             else //En caso contrario, el formato de datos es incorrecto
             {
-                if(++comErr == 10) //Si se encuentran 10 errores (no mas porque se repetiria muchas veces el proceso)
+                if(++comErr == 10) //Si se encuentran 10 errores                                         (no mas porque se repetiria muchas veces el proceso)
                 {
                     MessageBox.Show("Error en la comunicacion", "Error"); //Tira un mensaje de error
                     conectado = true;
@@ -180,7 +179,7 @@ namespace Primera_aplicacion
             datoSerie = iniciarCom();
             if (datoSerie == "") //Si no llegan datos a la entrada
             {
-                if (++contSetup >= 100)
+                if (++contSetup >= 1000)
                 {
                     MessageBox.Show("Error en la comunicaion con tierra", "Error"); //Muestra el error
                     conectado = true;
@@ -193,7 +192,7 @@ namespace Primera_aplicacion
             }
             else
             {
-                string[] Dts = datoSerie.Split(new Char[] { ';' }, 5); //separa la latitud, longitud, bateria, y aptitud
+                string[] Dts = datoSerie.Split(new Char[] { ';' }, 5); //separa la latitud, longitud, bateria, y actitud
                 //setea las coordenadas iniciales
                 Form_Main.coordenadasIniciales(double.Parse(Dts[0]), double.Parse(Dts[1]));
                 //establecer nivel de bateria y rango
@@ -210,7 +209,7 @@ namespace Primera_aplicacion
         //Envia el string de inicio, espera a recibir datos y los devuelve
         private string iniciarCom()
         {
-            string data = "";
+            string data = "null";
             try
             {
                 serialPort1.Write(initCom); //Se enviar un dato indicando que se abrio la conexion
@@ -219,7 +218,8 @@ namespace Primera_aplicacion
             {
                 MessageBox.Show(ex.Message, "Error");
             }
-            data = recibirDatos();    //Funcion para recibir los datos del puerto serie
+            while(data == "null")
+                data = recibirDatos();    //Funcion para recibir los datos del puerto serie
             serialPort1.DiscardInBuffer(); //Limpia el Buffer de entrada
             return data;
         }
@@ -242,6 +242,7 @@ namespace Primera_aplicacion
             conectado = true;
             init = false;
             Conectar();
+   
         }
 
         private void boxCom_DropDown(object sender, EventArgs e)
